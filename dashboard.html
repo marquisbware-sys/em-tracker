@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expected Move Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --panel: #11161e;
+    --panel-2: #161d27;
+    --border: #1f2937;
+    --text: #e6edf3;
+    --text-dim: #7d8590;
+    --green: #3fb950;
+    --red: #f85149;
+    --amber: #d29922;
+    --blue: #58a6ff;
+    --accent: #00ff88;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    min-height: 100vh;
+    padding: 24px;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(0, 255, 136, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 100%, rgba(88, 166, 255, 0.04) 0%, transparent 50%);
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .header-meta {
+    color: var(--text-dim);
+    font-size: 12px;
+  }
+
+  .header-meta span { color: var(--accent); }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  input[type="text"], button {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    text-transform: uppercase;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  button {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  button:hover { filter: brightness(1.15); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  button.secondary {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .filter-bar {
+    margin-bottom: 16px;
+    color: var(--text-dim);
+    font-size: 12px;
+  }
+
+  .filter-bar input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    padding: 4px 0;
+    font-family: inherit;
+    width: 200px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0.4;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .ticker {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .price {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .price-value { color: var(--text); font-weight: 500; }
+
+  .em-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .em-row:last-child { border-bottom: none; }
+
+  .em-label {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .em-weekly .em-value { color: var(--green); }
+  .em-monthly .em-value { color: var(--amber); }
+
+  .em-value { font-weight: 500; }
+
+  .range {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .range-bar {
+    margin-top: 6px;
+    height: 4px;
+    background: var(--panel-2);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .range-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--amber), var(--green), var(--amber), var(--red));
+  }
+
+  .range-marker {
+    position: absolute;
+    top: -3px;
+    width: 2px;
+    height: 10px;
+    background: var(--text);
+  }
+
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dim);
+  }
+
+  .empty h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: var(--amber);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--panel);
+    border-radius: 12px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal.open { display: flex; }
+
+  .modal-content {
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 28px;
+    max-width: 480px;
+    width: 90%;
+  }
+
+  .modal-content h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .modal-content p {
+    color: var(--text-dim);
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .modal-content code {
+    display: block;
+    background: var(--bg);
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    margin: 8px 0;
+    word-break: break-all;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>EXPECTED MOVE TRACKER</h1>
+    <div class="status">DATA LIVE</div>
+  </div>
+  <div class="header-meta">
+    UPDATED <span id="last-updated">--</span><br>
+    <span id="ticker-count">--</span> TICKERS TRACKED
+  </div>
+</div>
+
+<div class="controls">
+  <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="6">
+  <button id="add-btn">+ ADD & FETCH</button>
+  <button id="refresh-btn" class="secondary">↻ RELOAD DATA</button>
+  <button id="export-btn" class="secondary">⤓ EXPORT PINE</button>
+</div>
+
+<div class="filter-bar">
+  FILTER: <input type="text" id="filter-input" placeholder="type to filter...">
+</div>
+
+<div id="grid" class="grid"></div>
+
+<div class="footer">
+  <strong>How it works:</strong> Python script runs on GitHub Actions every Friday 4pm CT and Sunday 6pm CT, pulls options data from yfinance, calculates EM via ATM straddle × 0.85.
+  Add a ticker above to trigger a one-off GitHub Actions run for that symbol. Allow 30-60 seconds for the JSON to refresh, then click reload.<br>
+  <strong>Pine Script:</strong> Copy <code style="display: inline; padding: 1px 6px; background: var(--panel); border-radius: 3px; font-size: 11px;">expected_move.pine</code> from the repo and paste into TradingView's Pine Editor.
+</div>
+
+<div class="modal" id="add-modal">
+  <div class="modal-content">
+    <h3>TRIGGER GITHUB ACTION</h3>
+    <p>To add <strong id="modal-ticker"></strong> to your tracker, trigger the workflow manually:</p>
+    <ol style="color: var(--text-dim); font-size: 12px; padding-left: 20px; margin-bottom: 16px;">
+      <li>Open your repo on GitHub</li>
+      <li>Go to Actions → Update Expected Moves</li>
+      <li>Click "Run workflow"</li>
+      <li>Enter ticker: <strong id="modal-ticker-2"></strong></li>
+      <li>Wait 30-60 seconds, then refresh this page</li>
+    </ol>
+    <p style="font-size: 11px;">Or use the GitHub CLI:</p>
+    <code id="cli-cmd"></code>
+    <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+      <button class="secondary" id="modal-close">CLOSE</button>
+      <button id="modal-go">OPEN GITHUB →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // CONFIG: Update this to your repo's raw JSON URL
+  const JSON_URL = 'https://raw.githubusercontent.com/marquisbware-sys/em-tracker/main/expected_moves.json';
+  const REPO_URL = 'https://github.com/marquisbware-sys/em-tracker';
+
+  let allData = [];
+
+  async function loadData() {
+    try {
+      const res = await fetch(JSON_URL + '?t=' + Date.now()); // cache bust
+      const data = await res.json();
+      allData = data.tickers || [];
+      document.getElementById('last-updated').textContent = formatDate(data.generated_at);
+      document.getElementById('ticker-count').textContent = data.count;
+      renderGrid(allData);
+    } catch (e) {
+      document.getElementById('grid').innerHTML = `
+        <div class="empty" style="grid-column: 1/-1;">
+          <h2>NO DATA YET</h2>
+          <p>Update the JSON_URL constant in the HTML to point to your repo,<br>
+          then run the GitHub Action to generate expected_moves.json</p>
+        </div>`;
+    }
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '--';
+    const d = new Date(iso);
+    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderGrid(items) {
+    const grid = document.getElementById('grid');
+    if (items.length === 0) {
+      grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><h2>NO MATCHES</h2></div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map(t => {
+      const weeklyEM = t.weekly_em || 0;
+      const monthlyEM = t.monthly_em || 0;
+      const price = t.price || 0;
+      const wUpper = t.weekly_upper || 0;
+      const wLower = t.weekly_lower || 0;
+      const mUpper = t.monthly_upper || 0;
+      const mLower = t.monthly_lower || 0;
+      const iv = t.weekly_iv || 0;
+
+      // Marker position on range bar (assuming price is mid)
+      const markerPos = 50; // always at start of week the marker is mid
+
+      return `
+        <div class="card">
+          <div class="card-header">
+            <div class="ticker">${t.ticker}</div>
+            <div class="price">$<span class="price-value">${price.toFixed(2)}</span></div>
+          </div>
+          <div class="em-row em-weekly">
+            <span class="em-label">Weekly</span>
+            <span class="em-value">±$${weeklyEM.toFixed(2)} (${(weeklyEM/price*100).toFixed(2)}%)</span>
+          </div>
+          <div class="em-row em-monthly">
+            <span class="em-label">Monthly</span>
+            <span class="em-value">±$${monthlyEM.toFixed(2)} (${(monthlyEM/price*100).toFixed(2)}%)</span>
+          </div>
+          <div class="em-row">
+            <span class="em-label">IV</span>
+            <span class="em-value" style="color: var(--blue);">${iv.toFixed(1)}%</span>
+          </div>
+          <div class="range">
+            <div style="display: flex; justify-content: space-between;">
+              <span>${wLower.toFixed(2)}</span>
+              <span style="color: var(--text);">${price.toFixed(2)}</span>
+              <span>${wUpper.toFixed(2)}</span>
+            </div>
+            <div class="range-bar">
+              <div class="range-fill"></div>
+              <div class="range-marker" style="left: ${markerPos}%;"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Add ticker handler
+  document.getElementById('add-btn').addEventListener('click', () => {
+    const input = document.getElementById('ticker-input');
+    const ticker = input.value.trim().toUpperCase();
+    if (!ticker) return;
+
+    document.getElementById('modal-ticker').textContent = ticker;
+    document.getElementById('modal-ticker-2').textContent = ticker;
+    document.getElementById('cli-cmd').textContent =
+      `gh workflow run update-em.yml -f ticker=${ticker}`;
+    document.getElementById('add-modal').classList.add('open');
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => {
+    document.getElementById('add-modal').classList.remove('open');
+  });
+
+  document.getElementById('modal-go').addEventListener('click', () => {
+    window.open(REPO_URL + '/actions/workflows/update-em.yml', '_blank');
+  });
+
+  document.getElementById('refresh-btn').addEventListener('click', loadData);
+
+  document.getElementById('export-btn').addEventListener('click', () => {
+    window.open(REPO_URL + '/blob/main/expected_move.pine', '_blank');
+  });
+
+  // Filter
+  document.getElementById('filter-input').addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    const filtered = allData.filter(t => t.ticker.toLowerCase().includes(q));
+    renderGrid(filtered);
+  });
+
+  // Enter key on ticker input
+  document.getElementById('ticker-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') document.getElementById('add-btn').click();
+  });
+
+  loadData();
+  setInterval(loadData, 60000); // refresh every minute
+</script>
+
+</body>
+</html>

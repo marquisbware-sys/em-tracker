@@ -1,49 +1,110 @@
-name: Update Expected Moves
+// @version=5
+// Expected Move Indicator - Auto-Updated Weekly
+// Data sourced from yfinance, updated every Sunday at 6pm Central
+// Repo: https://github.com/YOUR_USERNAME/em-tracker
+//
+// USAGE: This script auto-generates from expected_moves.json
+// To regenerate manually, run: python generate_pine.py
 
-on:
-  schedule:
-    # Every Sunday at 11pm UTC = 6pm Central (after Friday close, ready for Monday open)
-    - cron: '0 23 * * 0'
-    # Also run Friday at 9pm UTC = 4pm Central (right after market close)
-    - cron: '0 21 * * 5'
-  workflow_dispatch:  # Allow manual trigger from GitHub UI
-    inputs:
-      ticker:
-        description: 'Single ticker to update (leave blank for full watchlist)'
-        required: false
-        default: ''
+indicator("Expected Move (Auto-Updated)", overlay=true, max_boxes_count=10, max_lines_count=10)
 
-jobs:
-  update-em:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+// ============================================================
+// USER INPUTS
+// ============================================================
+showWeekly = input.bool(true, "Show Weekly EM")
+showMonthly = input.bool(true, "Show Monthly EM")
+showTable = input.bool(true, "Show Info Table")
+weeklyColor = input.color(color.new(color.lime, 0), "Weekly EM Color")
+monthlyColor = input.color(color.new(color.orange, 0), "Monthly EM Color")
+bandWidth = input.int(2, "Line Width", minval=1, maxval=5)
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+// ============================================================
+// AUTO-GENERATED DATA BLOCK
+// This entire section gets rewritten by generate_pine.py each week
+// Format: ticker, weekly_em, monthly_em, price, weekly_upper, weekly_lower
+// DATA_GENERATED_AT: [TIMESTAMP_PLACEHOLDER]
+// ============================================================
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+getEMData(string sym) =>
+    float weeklyEM = na
+    float monthlyEM = na
+    float refPrice = na
 
-      - name: Install dependencies
-        run: |
-          pip install yfinance pandas
+    // [PINE_DATA_BLOCK_START]
+    // [PINE_DATA_BLOCK_END]
 
-      - name: Run EM calculation
-        run: |
-          if [ -n "${{ github.event.inputs.ticker }}" ]; then
-            python calculate_em.py ${{ github.event.inputs.ticker }}
-          else
-            python calculate_em.py
-          fi
+    [weeklyEM, monthlyEM, refPrice]
 
-      - name: Commit and push
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add expected_moves.json
-          git diff --staged --quiet || git commit -m "Update EM data $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+// ============================================================
+// PLOTTING LOGIC
+// ============================================================
+[wEM, mEM, refP] = getEMData(syminfo.ticker)
+
+// Calculate band start (Monday open of current week)
+isNewWeek = dayofweek(time) == dayofweek.monday and dayofweek(time[1]) != dayofweek.monday
+var float weekStartPrice = na
+if isNewWeek or barstate.isfirst
+    weekStartPrice := refP
+
+// Plot weekly bands
+var line weeklyUpperLine = na
+var line weeklyLowerLine = na
+var line weeklyMidLine = na
+
+if not na(wEM) and not na(refP) and showWeekly
+    if barstate.islast
+        line.delete(weeklyUpperLine)
+        line.delete(weeklyLowerLine)
+        line.delete(weeklyMidLine)
+
+        // Find Monday of current week
+        mondayTime = time - (dayofweek(time) - dayofweek.monday) * 86400000
+        fridayTime = mondayTime + 4 * 86400000
+
+        weeklyUpperLine := line.new(mondayTime, refP + wEM, fridayTime, refP + wEM,
+                                     xloc=xloc.bar_time, color=weeklyColor, width=bandWidth)
+        weeklyLowerLine := line.new(mondayTime, refP - wEM, fridayTime, refP - wEM,
+                                     xloc=xloc.bar_time, color=weeklyColor, width=bandWidth)
+        weeklyMidLine := line.new(mondayTime, refP, fridayTime, refP,
+                                   xloc=xloc.bar_time, color=color.new(weeklyColor, 70),
+                                   width=1, style=line.style_dashed)
+
+// Plot monthly bands
+var line monthlyUpperLine = na
+var line monthlyLowerLine = na
+
+if not na(mEM) and not na(refP) and showMonthly
+    if barstate.islast
+        line.delete(monthlyUpperLine)
+        line.delete(monthlyLowerLine)
+
+        mondayTime = time - (dayofweek(time) - dayofweek.monday) * 86400000
+        monthEndTime = mondayTime + 30 * 86400000
+
+        monthlyUpperLine := line.new(mondayTime, refP + mEM, monthEndTime, refP + mEM,
+                                      xloc=xloc.bar_time, color=monthlyColor,
+                                      width=bandWidth, style=line.style_dotted)
+        monthlyLowerLine := line.new(mondayTime, refP - mEM, monthEndTime, refP - mEM,
+                                      xloc=xloc.bar_time, color=monthlyColor,
+                                      width=bandWidth, style=line.style_dotted)
+
+// Info table
+var table infoPanel = table.new(position.top_right, 3, 4, frame_color=color.gray,
+                                 frame_width=1, border_color=color.gray, border_width=1)
+
+if showTable and barstate.islast
+    if not na(wEM)
+        table.cell(infoPanel, 0, 0, "Weekly EM", text_color=weeklyColor, text_size=size.small)
+        table.cell(infoPanel, 1, 0, "±" + str.tostring(wEM, "#.##"), text_color=weeklyColor, text_size=size.small)
+        table.cell(infoPanel, 2, 0, str.tostring(refP - wEM, "#.##") + " / " + str.tostring(refP + wEM, "#.##"),
+                   text_color=weeklyColor, text_size=size.small)
+
+    if not na(mEM)
+        table.cell(infoPanel, 0, 1, "Monthly EM", text_color=monthlyColor, text_size=size.small)
+        table.cell(infoPanel, 1, 1, "±" + str.tostring(mEM, "#.##"), text_color=monthlyColor, text_size=size.small)
+        table.cell(infoPanel, 2, 1, str.tostring(refP - mEM, "#.##") + " / " + str.tostring(refP + mEM, "#.##"),
+                   text_color=monthlyColor, text_size=size.small)
+
+    if na(wEM) and na(mEM)
+        table.cell(infoPanel, 0, 0, syminfo.ticker + " not in watchlist", text_color=color.gray, text_size=size.small)
+        table.cell(infoPanel, 0, 1, "Add via web dashboard", text_color=color.gray, text_size=size.small)
