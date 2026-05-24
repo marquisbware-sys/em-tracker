@@ -1,48 +1,142 @@
-"""
-Pine Script Generator
-Reads expected_moves.json and produces a ready-to-paste Pine Script.
-Run after calculate_em.py.
-"""
+// @version=5
+// Expected Move Indicator - Auto-Updated Weekly
+// Data sourced from yfinance, updated every Sunday at 6pm Central
+// Repo: https://github.com/YOUR_USERNAME/em-tracker
+//
+// USAGE: This script auto-generates from expected_moves.json
+// To regenerate manually, run: python generate_pine.py
 
-import json
-from datetime import datetime
+indicator("Expected Move (Auto-Updated)", overlay=true, max_boxes_count=10, max_lines_count=10)
 
+// ============================================================
+// USER INPUTS
+// ============================================================
+showWeekly = input.bool(true, "Show Weekly EM")
+showMonthly = input.bool(true, "Show Monthly EM")
+showTable = input.bool(true, "Show Info Table")
+weeklyColor = input.color(color.new(color.lime, 0), "Weekly EM Color")
+monthlyColor = input.color(color.new(color.orange, 0), "Monthly EM Color")
+bandWidth = input.int(2, "Line Width", minval=1, maxval=5)
 
-def generate_pine_script(json_path="expected_moves.json", template_path="expected_move.pine.template", output_path="expected_move.pine"):
-    with open(json_path, "r") as f:
-        data = json.load(f)
+// ============================================================
+// AUTO-GENERATED DATA BLOCK
+// This entire section gets rewritten by generate_pine.py each week
+// Format: ticker, weekly_em, monthly_em, price, weekly_upper, weekly_lower
+// DATA_GENERATED_AT: 2026-05-24T18:00:00
+// ============================================================
 
-    with open(template_path, "r") as f:
-        template = f.read()
+getEMData(string sym) =>
+    float weeklyEM = na
+    float monthlyEM = na
+    float refPrice = na
 
-    # Build the data block
-    pine_data = []
-    for i, t in enumerate(data["tickers"]):
-        prefix = "    if" if i == 0 else "    else if"
-        weekly = t.get("weekly_em", 0)
-        monthly = t.get("monthly_em", 0)
-        price = t.get("price", 0)
-        pine_data.append(f'{prefix} sym == "{t["ticker"]}"')
-        pine_data.append(f'        weeklyEM := {weekly}')
-        pine_data.append(f'        monthlyEM := {monthly}')
-        pine_data.append(f'        refPrice := {price}')
+    // [PINE_DATA_BLOCK_START]
+    if sym == "AAPL"
+        weeklyEM := 4.12
+        monthlyEM := 8.95
+        refPrice := 195.42
+    else if sym == "META"
+        weeklyEM := 12.4
+        monthlyEM := 27.18
+        refPrice := 458.21
+    else if sym == "NVDA"
+        weeklyEM := 4.85
+        monthlyEM := 10.92
+        refPrice := 132.45
+    else if sym == "QQQ"
+        weeklyEM := 6.21
+        monthlyEM := 13.85
+        refPrice := 478.34
+    else if sym == "SPY"
+        weeklyEM := 5.43
+        monthlyEM := 12.1
+        refPrice := 542.18
+    else if sym == "TSLA"
+        weeklyEM := 11.2
+        monthlyEM := 25.3
+        refPrice := 178.5
+    else if sym == "MSTR"
+        weeklyEM := 89.4
+        monthlyEM := 200.15
+        refPrice := 1248.5
+    else if sym == "COIN"
+        weeklyEM := 14.2
+        monthlyEM := 31.85
+        refPrice := 235.4
+    // [PINE_DATA_BLOCK_END]
 
-    data_block = "\n".join(pine_data)
+    [weeklyEM, monthlyEM, refPrice]
 
-    # Replace placeholders
-    start_marker = "    // [PINE_DATA_BLOCK_START]"
-    end_marker = "    // [PINE_DATA_BLOCK_END]"
-    before = template.split(start_marker)[0]
-    after = template.split(end_marker)[1]
+// ============================================================
+// PLOTTING LOGIC
+// ============================================================
+[wEM, mEM, refP] = getEMData(syminfo.ticker)
 
-    final = before + start_marker + "\n" + data_block + "\n" + end_marker + after
-    final = final.replace("[TIMESTAMP_PLACEHOLDER]", data["generated_at"])
+// Calculate band start (Monday open of current week)
+isNewWeek = dayofweek(time) == dayofweek.monday and dayofweek(time[1]) != dayofweek.monday
+var float weekStartPrice = na
+if isNewWeek or barstate.isfirst
+    weekStartPrice := refP
 
-    with open(output_path, "w") as f:
-        f.write(final)
+// Plot weekly bands
+var line weeklyUpperLine = na
+var line weeklyLowerLine = na
+var line weeklyMidLine = na
 
-    print(f"Generated {output_path} with {data['count']} tickers")
+if not na(wEM) and not na(refP) and showWeekly
+    if barstate.islast
+        line.delete(weeklyUpperLine)
+        line.delete(weeklyLowerLine)
+        line.delete(weeklyMidLine)
 
+        // Find Monday of current week
+        mondayTime = time - (dayofweek(time) - dayofweek.monday) * 86400000
+        fridayTime = mondayTime + 4 * 86400000
 
-if __name__ == "__main__":
-    generate_pine_script()
+        weeklyUpperLine := line.new(mondayTime, refP + wEM, fridayTime, refP + wEM,
+                                     xloc=xloc.bar_time, color=weeklyColor, width=bandWidth)
+        weeklyLowerLine := line.new(mondayTime, refP - wEM, fridayTime, refP - wEM,
+                                     xloc=xloc.bar_time, color=weeklyColor, width=bandWidth)
+        weeklyMidLine := line.new(mondayTime, refP, fridayTime, refP,
+                                   xloc=xloc.bar_time, color=color.new(weeklyColor, 70),
+                                   width=1, style=line.style_dashed)
+
+// Plot monthly bands
+var line monthlyUpperLine = na
+var line monthlyLowerLine = na
+
+if not na(mEM) and not na(refP) and showMonthly
+    if barstate.islast
+        line.delete(monthlyUpperLine)
+        line.delete(monthlyLowerLine)
+
+        mondayTime = time - (dayofweek(time) - dayofweek.monday) * 86400000
+        monthEndTime = mondayTime + 30 * 86400000
+
+        monthlyUpperLine := line.new(mondayTime, refP + mEM, monthEndTime, refP + mEM,
+                                      xloc=xloc.bar_time, color=monthlyColor,
+                                      width=bandWidth, style=line.style_dotted)
+        monthlyLowerLine := line.new(mondayTime, refP - mEM, monthEndTime, refP - mEM,
+                                      xloc=xloc.bar_time, color=monthlyColor,
+                                      width=bandWidth, style=line.style_dotted)
+
+// Info table
+var table infoPanel = table.new(position.top_right, 3, 4, frame_color=color.gray,
+                                 frame_width=1, border_color=color.gray, border_width=1)
+
+if showTable and barstate.islast
+    if not na(wEM)
+        table.cell(infoPanel, 0, 0, "Weekly EM", text_color=weeklyColor, text_size=size.small)
+        table.cell(infoPanel, 1, 0, "±" + str.tostring(wEM, "#.##"), text_color=weeklyColor, text_size=size.small)
+        table.cell(infoPanel, 2, 0, str.tostring(refP - wEM, "#.##") + " / " + str.tostring(refP + wEM, "#.##"),
+                   text_color=weeklyColor, text_size=size.small)
+
+    if not na(mEM)
+        table.cell(infoPanel, 0, 1, "Monthly EM", text_color=monthlyColor, text_size=size.small)
+        table.cell(infoPanel, 1, 1, "±" + str.tostring(mEM, "#.##"), text_color=monthlyColor, text_size=size.small)
+        table.cell(infoPanel, 2, 1, str.tostring(refP - mEM, "#.##") + " / " + str.tostring(refP + mEM, "#.##"),
+                   text_color=monthlyColor, text_size=size.small)
+
+    if na(wEM) and na(mEM)
+        table.cell(infoPanel, 0, 0, syminfo.ticker + " not in watchlist", text_color=color.gray, text_size=size.small)
+        table.cell(infoPanel, 0, 1, "Add via web dashboard", text_color=color.gray, text_size=size.small)
