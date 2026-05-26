@@ -157,6 +157,22 @@ def main(single_ticker=None):
         else:
             print(f"  {sym}: FAILED")
     
+    # If adding a single ticker, merge with existing JSON instead of overwriting
+    if single_ticker and results:
+        try:
+            with open("expected_moves.json", "r") as f:
+                existing = json.load(f)
+            existing_tickers = existing.get("tickers", [])
+            # Remove old entry for this ticker if present
+            ticker_upper = single_ticker.upper()
+            existing_tickers = [t for t in existing_tickers if t.get("ticker") != ticker_upper]
+            # Append new result
+            existing_tickers.append(results[0])
+            results = existing_tickers
+            print(f"  Merged {ticker_upper} into existing {len(existing_tickers)} tickers")
+        except Exception as e:
+            print(f"  Warning: Could not read existing JSON, writing fresh: {e}")
+    
     # Write JSON
     output = {
         "generated_at": datetime.utcnow().isoformat(),
