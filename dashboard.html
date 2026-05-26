@@ -1,511 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expected Move Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0e14;
-    --panel: #11161e;
-    --panel-2: #161d27;
-    --border: #1f2937;
-    --text: #e6edf3;
-    --text-dim: #7d8590;
-    --green: #3fb950;
-    --red: #f85149;
-    --amber: #d29922;
-    --blue: #58a6ff;
-    --accent: #00ff88;
-  }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expected Move Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+        --bg: #0a0e14;
+        --panel: #11161e;
+        --panel-2: #161d27;
+        --border: #1f2937;
+        --text: #e6edf3;
+        --text-dim: #7d8590;
+        --green: #3fb950;
+        --red: #f85149;
+        --amber: #d29922;
+        --blue: #58a6ff;
+        --accent: #00ff88;
+        --purple: #bc8cff;
+    }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    min-height: 100vh;
-    padding: 24px;
-    background-image:
-      radial-gradient(circle at 20% 0%, rgba(0, 255, 136, 0.04) 0%, transparent 50%),
-      radial-gradient(circle at 80% 100%, rgba(88, 166, 255, 0.04) 0%, transparent 50%);
-  }
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        min-height: 100vh;
+        padding: 24px;
+        background-image:
+              radial-gradient(circle at 20% 0%, rgba(0, 255, 136, 0.04) 0%, transparent 50%),
+              radial-gradient(circle at 80% 100%, rgba(88, 166, 255, 0.04) 0%, transparent 50%);
+    }
 
-  .header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 32px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
+    .header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+    }
 
-  h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    line-height: 1;
-  }
+    h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 42px;
+        letter-spacing: 3px;
+        color: var(--accent);
+        line-height: 1;
+    }
 
-  .header-meta {
-    color: var(--text-dim);
-    font-size: 12px;
-  }
+    .header-meta {
+        color: var(--text-dim);
+        font-size: 12px;
+        text-align: right;
+    }
 
-  .header-meta span { color: var(--accent); }
+    .header-meta span { color: var(--accent); }
 
-  .controls {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
+    .controls {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
 
-  input[type="text"], button {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 16px;
-    font-family: inherit;
-    font-size: 13px;
-    border-radius: 4px;
-    transition: all 0.15s;
-  }
+    input[type="text"], button, select {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 16px;
+        font-family: inherit;
+        font-size: 13px;
+        border-radius: 4px;
+        transition: all 0.15s;
+    }
 
-  input[type="text"] {
-    flex: 1;
-    min-width: 200px;
-    text-transform: uppercase;
-  }
+    input[type="text"] {
+        flex: 1;
+        min-width: 200px;
+        text-transform: uppercase;
+    }
 
-  input[type="text"]:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent);
-  }
+    input[type="text"]:focus, select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent);
+    }
 
-  button {
-    background: var(--accent);
-    color: var(--bg);
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 1px;
-  }
+    select { cursor: pointer; }
+    select option { background: var(--panel); }
 
-  button:hover { filter: brightness(1.15); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
+    button {
+        background: var(--accent);
+        color: var(--bg);
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: 1px;
+    }
 
-  button.secondary {
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
+    button:hover { filter: brightness(1.15); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .filter-bar {
-    margin-bottom: 16px;
-    color: var(--text-dim);
-    font-size: 12px;
-  }
+    button.secondary {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
 
-  .filter-bar input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    padding: 4px 0;
-    font-family: inherit;
-    width: 200px;
-  }
+    .sort-bar {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+        padding: 10px 14px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 12px;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-  }
+    .sort-bar label { color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 16px;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
+    .sort-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        padding: 4px 10px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-family: inherit;
+    }
 
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    opacity: 0.4;
-  }
+    .sort-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .sort-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,255,136,0.07); }
 
-  .card:hover {
-    border-color: var(--accent);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.1);
-  }
+    .top100-badge {
+        background: rgba(0,255,136,0.12);
+        border: 1px solid rgba(0,255,136,0.3);
+        color: var(--accent);
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-left: auto;
+    }
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 12px;
-  }
+    .filter-bar {
+        margin-bottom: 16px;
+        color: var(--text-dim);
+        font-size: 12px;
+    }
 
-  .ticker {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 2px;
-    color: var(--text);
-  }
+    .filter-bar input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        padding: 4px 0;
+        font-family: inherit;
+        width: 200px;
+    }
 
-  .price {
-    font-size: 14px;
-    color: var(--text-dim);
-  }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 12px;
+    }
 
-  .price-value { color: var(--text); font-weight: 500; }
+    .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 16px;
+        transition: all 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
 
-  .em-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 12px;
-    border-bottom: 1px dashed var(--border);
-  }
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+        opacity: 0.4;
+    }
 
-  .em-row:last-child { border-bottom: none; }
+    .card:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 255, 136, 0.1);
+    }
 
-  .em-label {
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 12px;
+    }
 
-  .em-weekly .em-value { color: var(--green); }
-  .em-monthly .em-value { color: var(--amber); }
+    .ticker-wrap {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
 
-  .em-value { font-weight: 500; }
+    .ticker {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 26px;
+        letter-spacing: 2px;
+        color: var(--text);
+    }
 
-  .range {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text-dim);
-  }
+    .rank-badge {
+        font-size: 10px;
+        color: var(--text-dim);
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        padding: 1px 6px;
+        border-radius: 3px;
+        letter-spacing: 0.5px;
+    }
 
-  .range-bar {
-    margin-top: 6px;
-    height: 4px;
-    background: var(--panel-2);
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
+    .rank-badge.top10 {
+        color: var(--accent);
+        border-color: rgba(0,255,136,0.4);
+        background: rgba(0,255,136,0.08);
+    }
 
-  .range-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--red), var(--amber), var(--green), var(--amber), var(--red));
-  }
+    .rank-badge.top25 {
+        color: var(--amber);
+        border-color: rgba(210,153,34,0.4);
+        background: rgba(210,153,34,0.08);
+    }
 
-  .range-marker {
-    position: absolute;
-    top: -3px;
-    width: 2px;
-    height: 10px;
-    background: var(--text);
-  }
+    .price {
+        font-size: 14px;
+        color: var(--text-dim);
+    }
 
-  .empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-dim);
-  }
+    .price-value { color: var(--text); font-weight: 500; }
 
-  .empty h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-    color: var(--amber);
-  }
+    .em-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        font-size: 12px;
+        border-bottom: 1px dashed var(--border);
+    }
 
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    background: var(--panel);
-    border-radius: 12px;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
+    .em-row:last-child { border-bottom: none; }
 
-  .status::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
+    .em-label {
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+    .em-weekly .em-value { color: var(--green); }
+    .em-monthly .em-value { color: var(--amber); }
+    .em-value { font-weight: 500; }
 
-  .footer {
-    margin-top: 40px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    color: var(--text-dim);
-    font-size: 11px;
-    line-height: 1.6;
-  }
+    .sort-highlight .em-weekly .em-value { text-shadow: 0 0 8px rgba(63,185,80,0.6); }
+    .sort-highlight .em-monthly .em-value { text-shadow: 0 0 8px rgba(210,153,34,0.6); }
 
-  .footer a { color: var(--accent); text-decoration: none; }
+    .range {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+        font-size: 11px;
+        color: var(--text-dim);
+    }
 
-  .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-  }
+    .range-bar {
+        margin-top: 6px;
+        height: 4px;
+        background: var(--panel-2);
+        border-radius: 2px;
+        position: relative;
+        overflow: hidden;
+    }
 
-  .modal.open { display: flex; }
+    .range-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--red), var(--amber), var(--green), var(--amber), var(--red));
+    }
 
-  .modal-content {
-    background: var(--panel);
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-    padding: 28px;
-    max-width: 480px;
-    width: 90%;
-  }
+    .range-marker {
+        position: absolute;
+        top: -3px;
+        width: 2px;
+        height: 10px;
+        background: var(--text);
+    }
 
-  .modal-content h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 2px;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
+    .empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-dim);
+    }
 
-  .modal-content p {
-    color: var(--text-dim);
-    font-size: 12px;
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
+    .empty h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 32px;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        color: var(--amber);
+    }
 
-  .modal-content code {
-    display: block;
-    background: var(--bg);
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    color: var(--accent);
-    margin: 8px 0;
-    word-break: break-all;
-    font-size: 11px;
-  }
-</style>
-</head>
-<body>
+    .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: var(--panel);
+        border-radius: 12px;
+        font-size: 11px;
+        color: var(--text-dim);
+    }
 
-<div class="header">
-  <div>
-    <h1>EXPECTED MOVE TRACKER</h1>
-    <div class="status">DATA LIVE</div>
+    .status::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background: var(--green);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
+    .footer {
+        margin-top: 40px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+        color: var(--text-dim);
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .footer a { color: var(--accent); text-decoration: none; }
+
+    .stats-bar {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 11px;
+        color: var(--text-dim);
+    }
+
+    .stat-item span { color: var(--text); font-weight: 500; }
+    .stat-item .stat-accent { color: var(--accent); }
+    .stat-item .stat-amber { color: var(--amber); }
+    .stat-item .stat-blue { color: var(--blue); }
+
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-content {
+        background: var(--panel);
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 28px;
+        max-width: 480px;
+        width: 90%;
+    }
+
+    .modal-content h3 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 24px;
+        letter-spacing: 2px;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .modal-content p {
+        color: var(--text-dim);
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    .modal-content code {
+        display: block;
+        background: var(--bg);
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        color: var(--accent);
+        margin: 8px 0;
+        word-break: break-all;
+        font-size: 11px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+        <div>
+              <h1>EXPECTED MOVE TRACKER</h1>
+            <div class="status">DATA LIVE</div>
+        </div>
+      <div class="header-meta">
+          UPDATED <span id="last-updated">--</span>span><br>
+          <span id="ticker-count">--</span>span> TICKERS TRACKED &nbsp;|&nbsp; TOP 100 MODE
+      </div>
+    </div>
+  
+  <div class="controls">
+    <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="10">
+    <button id="add-btn">+ ADD & FETCH</button>button>
+    <button id="refresh-btn" class="secondary">&#8635; RELOAD DATA</button>button>
+    <button id="export-btn" class="secondary">&#10507; EXPORT PINE</button>button>
   </div>
-  <div class="header-meta">
-    UPDATED <span id="last-updated">--</span><br>
-    <span id="ticker-count">--</span> TICKERS TRACKED
+  
+  <div class="sort-bar">
+    <label>SORT BY:</label>
+    <button class="sort-btn active" data-sort="weekly_em_pct">Weekly EM %</button>button>
+    <button class="sort-btn" data-sort="monthly_em_pct">Monthly EM %</button>button>
+    <button class="sort-btn" data-sort="weekly_em">Weekly EM $</button>button>
+    <button class="sort-btn" data-sort="monthly_em">Monthly EM $</button>button>
+    <button class="sort-btn" data-sort="weekly_iv">IV %</button>button>
+    <button class="sort-btn" data-sort="price">Price</button>button>
+    <button class="sort-btn" data-sort="ticker_alpha">Ticker A-Z</button>button>
+    <span class="top100-badge">&#9650; TOP 100</span>span>
   </div>
-</div>
-
-<div class="controls">
-  <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="6">
-  <button id="add-btn">+ ADD & FETCH</button>
-  <button id="refresh-btn" class="secondary">↻ RELOAD DATA</button>
-  <button id="export-btn" class="secondary">⤓ EXPORT PINE</button>
-</div>
-
-<div class="filter-bar">
-  FILTER: <input type="text" id="filter-input" placeholder="type to filter...">
-</div>
-
-<div id="grid" class="grid"></div>
-
-<div class="footer">
-  <strong>How it works:</strong> Python script runs on GitHub Actions every Friday 4pm CT and Sunday 6pm CT, pulls options data from yfinance, calculates EM via ATM straddle × 0.85.
-  Add a ticker above to trigger a one-off GitHub Actions run for that symbol. Allow 30-60 seconds for the JSON to refresh, then click reload.<br>
-  <strong>Pine Script:</strong> Copy <code style="display: inline; padding: 1px 6px; background: var(--panel); border-radius: 3px; font-size: 11px;">expected_move.pine</code> from the repo and paste into TradingView's Pine Editor.
-</div>
-
-<div class="modal" id="add-modal">
-  <div class="modal-content">
-    <h3>TRIGGER GITHUB ACTION</h3>
-    <p>To add <strong id="modal-ticker"></strong> to your tracker, trigger the workflow manually:</p>
-    <ol style="color: var(--text-dim); font-size: 12px; padding-left: 20px; margin-bottom: 16px;">
-      <li>Open your repo on GitHub</li>
-      <li>Go to Actions → Update Expected Moves</li>
-      <li>Click "Run workflow"</li>
-      <li>Enter ticker: <strong id="modal-ticker-2"></strong></li>
-      <li>Wait 30-60 seconds, then refresh this page</li>
-    </ol>
-    <p style="font-size: 11px;">Or use the GitHub CLI:</p>
-    <code id="cli-cmd"></code>
-    <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
-      <button class="secondary" id="modal-close">CLOSE</button>
-      <button id="modal-go">OPEN GITHUB →</button>
+  
+  <div id="stats-bar" class="stats-bar" style="display:none;">
+    <div class="stat-item">SHOWING: <span id="stat-showing" class="stat-accent">--</span>span></div>
+    <div class="stat-item">AVG WEEKLY EM: <span id="stat-avg-weekly" class="stat-accent">--</span>span></div>
+    <div class="stat-item">AVG MONTHLY EM: <span id="stat-amber" class="stat-amber">--</span>span></div>
+    <div class="stat-item">AVG IV: <span id="stat-avg-iv" class="stat-blue">--</span>span></div>
+    <div class="stat-item">HIGHEST WEEKLY EM%: <span id="stat-max-weekly" class="stat-accent">--</span>span></div>
+  </div>
+  
+  <div class="filter-bar">
+    FILTER: <input type="text" id="filter-input" placeholder="type to filter...">
+  </div>
+  
+  <div id="grid" class="grid"></div>
+  
+  <div class="footer">
+    <strong>How it works:</strong> Python script runs on GitHub Actions every Friday 4pm CT and Sunday 6pm CT, pulls options data from yfinance, calculates EM via ATM straddle &times; 0.85. Tracks top 100 tickers ranked by the selected characteristic.
+    Add a ticker above to trigger a one-off GitHub Actions run for that symbol. Allow 30-60 seconds for the JSON to refresh, then click reload.<br>
+    <strong>Pine Script:</strong> Copy <code style="display: inline; padding: 1px 6px; background: var(--panel); border-radius: 3px; font-size: 11px;">expected_move.pine</code>code> from the repo and paste into TradingView's Pine Editor.
+  </div>
+  
+  <div class="modal" id="add-modal">
+    <div class="modal-content">
+        <h3>TRIGGER GITHUB ACTION</h3>
+        <p>To add <strong id="modal-ticker"></strong>strong> to your tracker, trigger the workflow manually:</p>
+        <ol style="color: var(--text-dim); font-size: 12px; padding-left: 20px; margin-bottom: 16px;">
+              <li>Open your repo on GitHub</li>
+              <li>Go to Actions &rarr; Update Expected Moves</li>
+              <li>Click "Run workflow"</li>
+              <li>Enter ticker: <strong id="modal-ticker-2"></strong>strong></li>
+              <li>Wait 30-60 seconds, then refresh this page</li>
+        </ol>ol>
+        <p style="font-size: 11px;">Or use the GitHub CLI:</p>
+        <code id="cli-cmd"></code>code>
+        <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+              <button class="secondary" id="modal-close">CLOSE</button>button>
+              <button id="modal-go">OPEN GITHUB &rarr;</button>button>
+        </div>
     </div>
   </div>
-</div>
+  
+  <script>
+    const JSON_URL = 'https://raw.githubusercontent.com/marquisbware-sys/em-tracker/main/expected_moves.json';
+    const REPO_URL = 'https://github.com/marquisbware-sys/em-tracker';
+    const TOP_N = 100;
 
-<script>
-  // CONFIG: Update this to your repo's raw JSON URL
-  const JSON_URL = 'https://raw.githubusercontent.com/marquisbware-sys/em-tracker/main/expected_moves.json';
-  const REPO_URL = 'https://github.com/marquisbware-sys/em-tracker';
+    let allData = [];
+    let currentSort = 'weekly_em_pct';
+    let sortAsc = false;
 
-  let allData = [];
+    // ── Sort helpers ────────────────────────────────────────────────────────────
+    const SORT_KEYS = {
+        weekly_em_pct:  t => (t.weekly_em  && t.price) ? t.weekly_em  / t.price * 100 : -Infinity,
+        monthly_em_pct: t => (t.monthly_em && t.price) ? t.monthly_em / t.price * 100 : -Infinity,
+        weekly_em:      t => t.weekly_em  || -Infinity,
+        monthly_em:     t => t.monthly_em || -Infinity,
+        weekly_iv:      t => t.weekly_iv  || -Infinity,
+        price:          t => t.price      || -Infinity,
+        ticker_alpha:   t => t.ticker,
+    };
 
-  async function loadData() {
-    try {
-      const res = await fetch(JSON_URL + '?t=' + Date.now()); // cache bust
-      const data = await res.json();
-      allData = data.tickers || [];
-      document.getElementById('last-updated').textContent = formatDate(data.generated_at);
-      document.getElementById('ticker-count').textContent = data.count;
-      renderGrid(allData);
-    } catch (e) {
-      document.getElementById('grid').innerHTML = `
-        <div class="empty" style="grid-column: 1/-1;">
-          <h2>NO DATA YET</h2>
-          <p>Update the JSON_URL constant in the HTML to point to your repo,<br>
-          then run the GitHub Action to generate expected_moves.json</p>
-        </div>`;
-    }
-  }
-
-  function formatDate(iso) {
-    if (!iso) return '--';
-    const d = new Date(iso);
-    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
-
-  function renderGrid(items) {
-    const grid = document.getElementById('grid');
-    if (items.length === 0) {
-      grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><h2>NO MATCHES</h2></div>`;
-      return;
+    function sortedData(data) {
+        const fn = SORT_KEYS[currentSort];
+        const sorted = [...data].sort((a, b) => {
+              const av = fn(a), bv = fn(b);
+              if (typeof av === 'string') return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+              return sortAsc ? av - bv : bv - av;
+        });
+        return sorted.slice(0, TOP_N);
     }
 
-    grid.innerHTML = items.map(t => {
-      const weeklyEM = t.weekly_em || 0;
-      const monthlyEM = t.monthly_em || 0;
-      const price = t.price || 0;
-      const wUpper = t.weekly_upper || 0;
-      const wLower = t.weekly_lower || 0;
-      const mUpper = t.monthly_upper || 0;
-      const mLower = t.monthly_lower || 0;
-      const iv = t.weekly_iv || 0;
+    // ── Data loading ─────────────────────────────────────────────────────────────
+    async function loadData() {
+        try {
+              const res = await fetch(JSON_URL + '?t=' + Date.now());
+              const data = await res.json();
+              allData = data.tickers || [];
+              document.getElementById('last-updated').textContent = formatDate(data.generated_at);
+              document.getElementById('ticker-count').textContent = data.count;
+              applyAndRender();
+        } catch (e) {
+              document.getElementById('grid').innerHTML = `
+                    <div class="empty" style="grid-column: 1/-1;">
+                            <h2>NO DATA YET</h2>
+                                    <p>Update the JSON_URL constant in the HTML to point to your repo,<br>
+                                            then run the GitHub Action to generate expected_moves.json</p>
+                                                  </div>`;
+        }
+    }
 
-      // Marker position on range bar (assuming price is mid)
-      const markerPos = 50; // always at start of week the marker is mid
+    function formatDate(iso) {
+        if (!iso) return '--';
+        const d = new Date(iso);
+        return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
 
-      return `
-        <div class="card">
-          <div class="card-header">
-            <div class="ticker">${t.ticker}</div>
-            <div class="price">$<span class="price-value">${price.toFixed(2)}</span></div>
+    function applyAndRender(filterQ) {
+        let data = allData;
+        if (filterQ) data = data.filter(t => t.ticker.toLowerCase().includes(filterQ));
+        const ranked = sortedData(data);
+        renderStats(ranked, data.length);
+        renderGrid(ranked);
+    }
+
+    // ── Stats bar ─────────────────────────────────────────────────────────────────
+    function renderStats(items, total) {
+        const bar = document.getElementById('stats-bar');
+        if (items.length === 0) { bar.style.display = 'none'; return; }
+        bar.style.display = 'flex';
+
+        const avgW = items.reduce((s,t) => s + (t.weekly_em && t.price ? t.weekly_em/t.price*100 : 0), 0) / items.length;
+        const avgM = items.reduce((s,t) => s + (t.monthly_em && t.price ? t.monthly_em/t.price*100 : 0), 0) / items.length;
+        const avgIV = items.reduce((s,t) => s + (t.weekly_iv || 0), 0) / items.length;
+        const maxW = Math.max(...items.map(t => t.weekly_em && t.price ? t.weekly_em/t.price*100 : 0));
+        const maxWTicker = items.find(t => t.weekly_em && t.price && Math.abs(t.weekly_em/t.price*100 - maxW) < 0.001);
+
+        document.getElementById('stat-showing').textContent = `${items.length} / ${total}`;
+        document.getElementById('stat-avg-weekly').textContent = avgW.toFixed(2) + '%';
+        document.getElementById('stat-amber').textContent = avgM.toFixed(2) + '%';
+        document.getElementById('stat-avg-iv').textContent = avgIV.toFixed(1) + '%';
+        document.getElementById('stat-max-weekly').textContent = maxWTicker
+          ? `${maxWTicker.ticker} ${maxW.toFixed(2)}%`
+              : '--';
+    }
+
+    // ── Grid rendering ────────────────────────────────────────────────────────────
+    function renderGrid(items) {
+        const grid = document.getElementById('grid');
+        if (items.length === 0) {
+              grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><h2>NO MATCHES</h2></div>`;
+              return;
+        }
+
+        const sortFn = SORT_KEYS[currentSort];
+        const isWeeklySort   = currentSort === 'weekly_em_pct'  || currentSort === 'weekly_em';
+        const isMonthlySort  = currentSort === 'monthly_em_pct' || currentSort === 'monthly_em';
+
+        grid.innerHTML = items.map((t, idx) => {
+              const rank       = idx + 1;
+              const weeklyEM   = t.weekly_em   || 0;
+              const monthlyEM  = t.monthly_em  || 0;
+              const price      = t.price       || 0;
+              const wUpper     = t.weekly_upper  || 0;
+              const wLower     = t.weekly_lower  || 0;
+              const iv         = t.weekly_iv   || 0;
+              const weeklyPct  = price ? (weeklyEM  / price * 100) : 0;
+              const monthlyPct = price ? (monthlyEM / price * 100) : 0;
+
+              const rankClass = rank <= 10 ? 'top10' : rank <= 25 ? 'top25' : '';
+              const highlight = (isWeeklySort || isMonthlySort) ? 'sort-highlight' : '';
+
+              return `
+              <div class="card ${highlight}">
+                <div class="card-header">
+                    <div class="ticker-wrap">
+                          <div class="ticker">${t.ticker}</div>
+                                <span class="rank-badge ${rankClass}">#${rank}</span>
+                                    </div>
+                                        <div class="price">$<span class="price-value">${price.toFixed(2)}</span></div>
+                                          </div>
+                                            <div class="em-row em-weekly">
+                                                <span class="em-label">Weekly</span>
+        <span class="em-value">&#177;$${weeklyEM.toFixed(2)} (${weeklyPct.toFixed(2)}%)</span>
           </div>
-          <div class="em-row em-weekly">
-            <span class="em-label">Weekly</span>
-            <span class="em-value">±$${weeklyEM.toFixed(2)} (${(weeklyEM/price*100).toFixed(2)}%)</span>
-          </div>
-          <div class="em-row em-monthly">
-            <span class="em-label">Monthly</span>
-            <span class="em-value">±$${monthlyEM.toFixed(2)} (${(monthlyEM/price*100).toFixed(2)}%)</span>
-          </div>
-          <div class="em-row">
-            <span class="em-label">IV</span>
-            <span class="em-value" style="color: var(--blue);">${iv.toFixed(1)}%</span>
-          </div>
-          <div class="range">
-            <div style="display: flex; justify-content: space-between;">
-              <span>${wLower.toFixed(2)}</span>
-              <span style="color: var(--text);">${price.toFixed(2)}</span>
-              <span>${wUpper.toFixed(2)}</span>
-            </div>
-            <div class="range-bar">
-              <div class="range-fill"></div>
-              <div class="range-marker" style="left: ${markerPos}%;"></div>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
+            <div class="em-row em-monthly">
+                <span class="em-label">Monthly</span>
+                    <span class="em-value">&#177;$${monthlyEM.toFixed(2)} (${monthlyPct.toFixed(2)}%)</span>
+                      </div>
+                        <div class="em-row">
+                            <span class="em-label">IV</span>
+                                <span class="em-value" style="color: var(--blue);">${iv.toFixed(1)}%</span>
+                                  </div>
+      <div class="range">
+          <div style="display: flex; justify-content: space-between;">
+                <span>${wLower.toFixed(2)}</span>
+                      <span style="color: var(--text);">${price.toFixed(2)}</span>
+                            <span>${wUpper.toFixed(2)}</span>
+                                </div>
+                                    <div class="range-bar">
+                                          <div class="range-fill"></div>
+                                                <div class="range-marker" style="left: 50%;"></div>
+                                                    </div>
+                                                      </div>
+                                                      </div>`;
+        }).join('');
+    }
 
-  // Add ticker handler
-  document.getElementById('add-btn').addEventListener('click', () => {
-    const input = document.getElementById('ticker-input');
-    const ticker = input.value.trim().toUpperCase();
-    if (!ticker) return;
+    // ── Sort buttons ──────────────────────────────────────────────────────────────
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+              const newSort = btn.dataset.sort;
+              if (currentSort === newSort) {
+                      sortAsc = !sortAsc; // toggle direction
+              } else {
+                      currentSort = newSort;
+                      sortAsc = false;
+              }
+              document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              const q = document.getElementById('filter-input').value.toLowerCase();
+              applyAndRender(q || null);
+        });
+    });
 
-    document.getElementById('modal-ticker').textContent = ticker;
-    document.getElementById('modal-ticker-2').textContent = ticker;
-    document.getElementById('cli-cmd').textContent =
-      `gh workflow run update-em.yml -f ticker=${ticker}`;
-    document.getElementById('add-modal').classList.add('open');
-  });
+    // ── Add ticker ────────────────────────────────────────────────────────────────
+    document.getElementById('add-btn').addEventListener('click', () => {
+        const input = document.getElementById('ticker-input');
+        const ticker = input.value.trim().toUpperCase();
+        if (!ticker) return;
+        document.getElementById('modal-ticker').textContent  = ticker;
+        document.getElementById('modal-ticker-2').textContent = ticker;
+        document.getElementById('cli-cmd').textContent =
+              `gh workflow run update-em.yml -f ticker=${ticker}`;
+        document.getElementById('add-modal').classList.add('open');
+    });
 
-  document.getElementById('modal-close').addEventListener('click', () => {
-    document.getElementById('add-modal').classList.remove('open');
-  });
+    document.getElementById('modal-close').addEventListener('click', () =>
+        document.getElementById('add-modal').classList.remove('open'));
 
-  document.getElementById('modal-go').addEventListener('click', () => {
-    window.open(REPO_URL + '/actions/workflows/update-em.yml', '_blank');
-  });
+    document.getElementById('modal-go').addEventListener('click', () =>
+        window.open(REPO_URL + '/actions/workflows/update-em.yml', '_blank'));
 
-  document.getElementById('refresh-btn').addEventListener('click', loadData);
+    document.getElementById('refresh-btn').addEventListener('click', loadData);
 
-  document.getElementById('export-btn').addEventListener('click', () => {
-    window.open(REPO_URL + '/blob/main/expected_move.pine', '_blank');
-  });
+    document.getElementById('export-btn').addEventListener('click', () =>
+        window.open(REPO_URL + '/blob/main/expected_move.pine', '_blank'));
 
-  // Filter
-  document.getElementById('filter-input').addEventListener('input', (e) => {
-    const q = e.target.value.toLowerCase();
-    const filtered = allData.filter(t => t.ticker.toLowerCase().includes(q));
-    renderGrid(filtered);
-  });
+    // ── Filter ────────────────────────────────────────────────────────────────────
+    document.getElementById('filter-input').addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase();
+        applyAndRender(q || null);
+    });
 
-  // Enter key on ticker input
-  document.getElementById('ticker-input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') document.getElementById('add-btn').click();
-  });
+    document.getElementById('ticker-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('add-btn').click();
+    });
 
-  loadData();
-  setInterval(loadData, 60000); // refresh every minute
-</script>
+    loadData();
+    setInterval(loadData, 60000);
+  </script>
 
-</body>
+  </body>
 </html>
