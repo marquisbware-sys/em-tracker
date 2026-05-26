@@ -2,11 +2,13 @@ name: Update Expected Moves
 
 on:
   schedule:
-    # Every Sunday at 11pm UTC = 6pm Central (after Friday close, ready for Monday open)
-    - cron: '0 23 * * 0'
-    # Also run Friday at 9pm UTC = 4pm Central (right after market close)
+    # Monday-Thursday at 9pm UTC = 4pm CT (right at market close, options data fresh)
+    - cron: '0 21 * * 1-4'
+    # Friday at 9pm UTC = 4pm CT (right after market close)
     - cron: '0 21 * * 5'
-  workflow_dispatch:  # Allow manual trigger from GitHub UI
+    # Sunday at 11pm UTC = 6pm CT (ready for Monday open)
+    - cron: '0 23 * * 0'
+  workflow_dispatch:
     inputs:
       ticker:
         description: 'Single ticker to update (leave blank for full watchlist)'
