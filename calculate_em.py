@@ -12,14 +12,38 @@ import yfinance as yf
 import pandas as pd
 
 WATCHLIST = [
-    "SPY", "QQQ", "IWM", "DIA",
-    "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA",
-    "AMD", "INTC", "AVGO", "QCOM",
-    "JPM", "BAC", "GS", "MS",
-    "XLF", "XLK", "XLE", "XLV", "XLI", "XLY",
-    "GLD", "SLV", "USO",
-    "MSTR", "COIN", "HOOD",
-    "PLTR", "SOFI"
+        # --- Broad Market ETFs ---
+        "SPY", "QQQ", "IWM", "DIA", "VTI", "VOO", "SPX",
+        # --- Sector ETFs ---
+        "XLF", "XLK", "XLE", "XLV", "XLI", "XLY", "XLP", "XLB", "XLU", "XLRE",
+        # --- Mega-Cap Tech ---
+        "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA",
+        # --- Large-Cap Tech ---
+        "AMD", "INTC", "AVGO", "QCOM", "ORCL", "CRM", "ADBE", "NFLX",
+        "MU", "AMAT", "KLAC", "LRCX", "SNPS", "CDNS",
+        # --- Leveraged / High-Vol ETFs ---
+        "TSLL", "TQQQ", "SQQQ", "UVXY", "SPXL", "SPXS", "SOXL", "SOXS",
+        "MSTU", "NVDL",
+        # --- Financials ---
+        "JPM", "BAC", "GS", "MS", "WFC", "C", "BLK", "V", "MA", "AXP",
+        # --- Healthcare ---
+        "UNH", "JNJ", "PFE", "ABBV", "MRK", "LLY", "BMY", "AMGN",
+        # --- Energy ---
+        "XOM", "CVX", "COP", "OXY", "SLB", "HAL",
+        # --- Commodities & Alternatives ---
+        "GLD", "SLV", "USO", "GDX", "GDXJ", "UNG",
+        # --- Consumer & Retail ---
+        "WMT", "TGT", "COST", "HD", "LOW", "AMZN",
+        # --- Discretionary / Media ---
+        "DIS", "NFLX", "ROKU",
+        # --- Crypto-adjacent ---
+        "COIN", "MSTR", "HOOD", "IBIT",
+        # --- High-Beta / Meme / Growth ---
+        "PLTR", "SOFI", "RIVN", "LCID", "GME", "AMC",
+        # --- Industrials / Defense ---
+        "BA", "RTX", "LMT", "CAT",
+        # --- Telecom / Utilities ---
+        "T", "VZ",
 ]
 
 def get_next_friday(from_date=None):
