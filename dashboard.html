@@ -430,36 +430,36 @@
             <div class="status">DATA LIVE</div>
         </div>
       <div class="header-meta">
-          UPDATED <span id="last-updated">--</span>span><br>
-          <span id="ticker-count">--</span>span> TICKERS TRACKED &nbsp;|&nbsp; TOP 100 MODE
+          UPDATED <span id="last-updated">--</span><br>
+          <span id="ticker-count">--</span> TICKERS TRACKED &nbsp;|&nbsp; TOP 100 MODE
       </div>
     </div>
   
   <div class="controls">
     <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="10">
-    <button id="add-btn">+ ADD & FETCH</button>button>
-    <button id="refresh-btn" class="secondary">&#8635; RELOAD DATA</button>button>
-    <button id="export-btn" class="secondary">&#10507; EXPORT PINE</button>button>
+    <button id="add-btn">+ ADD & FETCH</button>
+    <button id="refresh-btn" class="secondary">&#8635; RELOAD DATA</button>
+    <button id="export-btn" class="secondary">&#10507; EXPORT PINE</button>
   </div>
   
   <div class="sort-bar">
     <label>SORT BY:</label>
-    <button class="sort-btn active" data-sort="weekly_em_pct">Weekly EM %</button>button>
-    <button class="sort-btn" data-sort="monthly_em_pct">Monthly EM %</button>button>
-    <button class="sort-btn" data-sort="weekly_em">Weekly EM $</button>button>
-    <button class="sort-btn" data-sort="monthly_em">Monthly EM $</button>button>
-    <button class="sort-btn" data-sort="weekly_iv">IV %</button>button>
-    <button class="sort-btn" data-sort="price">Price</button>button>
-    <button class="sort-btn" data-sort="ticker_alpha">Ticker A-Z</button>button>
-    <span class="top100-badge">&#9650; TOP 100</span>span>
+    <button class="sort-btn active" data-sort="weekly_em_pct">Weekly EM %</button>
+    <button class="sort-btn" data-sort="monthly_em_pct">Monthly EM %</button>
+    <button class="sort-btn" data-sort="weekly_em">Weekly EM $</button>
+    <button class="sort-btn" data-sort="monthly_em">Monthly EM $</button>
+    <button class="sort-btn" data-sort="weekly_iv">IV %</button>
+    <button class="sort-btn" data-sort="price">Price</button>
+    <button class="sort-btn" data-sort="ticker_alpha">Ticker A-Z</button>
+    <span class="top100-badge">&#9650; TOP 100</span>
   </div>
   
   <div id="stats-bar" class="stats-bar" style="display:none;">
-    <div class="stat-item">SHOWING: <span id="stat-showing" class="stat-accent">--</span>span></div>
-    <div class="stat-item">AVG WEEKLY EM: <span id="stat-avg-weekly" class="stat-accent">--</span>span></div>
-    <div class="stat-item">AVG MONTHLY EM: <span id="stat-amber" class="stat-amber">--</span>span></div>
-    <div class="stat-item">AVG IV: <span id="stat-avg-iv" class="stat-blue">--</span>span></div>
-    <div class="stat-item">HIGHEST WEEKLY EM%: <span id="stat-max-weekly" class="stat-accent">--</span>span></div>
+    <div class="stat-item">SHOWING: <span id="stat-showing" class="stat-accent">--</span></div>
+    <div class="stat-item">AVG WEEKLY EM: <span id="stat-avg-weekly" class="stat-accent">--</span></div>
+    <div class="stat-item">AVG MONTHLY EM: <span id="stat-amber" class="stat-amber">--</span></div>
+    <div class="stat-item">AVG IV: <span id="stat-avg-iv" class="stat-blue">--</span></div>
+    <div class="stat-item">HIGHEST WEEKLY EM%: <span id="stat-max-weekly" class="stat-accent">--</span></div>
   </div>
   
   <div class="filter-bar">
@@ -471,25 +471,25 @@
   <div class="footer">
     <strong>How it works:</strong> Python script runs on GitHub Actions every Friday 4pm CT and Sunday 6pm CT, pulls options data from yfinance, calculates EM via ATM straddle &times; 0.85. Tracks top 100 tickers ranked by the selected characteristic.
     Add a ticker above to trigger a one-off GitHub Actions run for that symbol. Allow 30-60 seconds for the JSON to refresh, then click reload.<br>
-    <strong>Pine Script:</strong> Copy <code style="display: inline; padding: 1px 6px; background: var(--panel); border-radius: 3px; font-size: 11px;">expected_move.pine</code>code> from the repo and paste into TradingView's Pine Editor.
+    <strong>Pine Script:</strong> Copy <code style="display: inline; padding: 1px 6px; background: var(--panel); border-radius: 3px; font-size: 11px;">expected_move.pine</code> from the repo and paste into TradingView's Pine Editor.
   </div>
   
   <div class="modal" id="add-modal">
     <div class="modal-content">
         <h3>TRIGGER GITHUB ACTION</h3>
-        <p>To add <strong id="modal-ticker"></strong>strong> to your tracker, trigger the workflow manually:</p>
+        <p>To add <strong id="modal-ticker"></strong> to your tracker, trigger the workflow manually:</p>
         <ol style="color: var(--text-dim); font-size: 12px; padding-left: 20px; margin-bottom: 16px;">
               <li>Open your repo on GitHub</li>
               <li>Go to Actions &rarr; Update Expected Moves</li>
               <li>Click "Run workflow"</li>
-              <li>Enter ticker: <strong id="modal-ticker-2"></strong>strong></li>
+              <li>Enter ticker: <strong id="modal-ticker-2"></strong></li>
               <li>Wait 30-60 seconds, then refresh this page</li>
-        </ol>ol>
+        </ol>
         <p style="font-size: 11px;">Or use the GitHub CLI:</p>
-        <code id="cli-cmd"></code>code>
+        <code id="cli-cmd"></code>
         <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
-              <button class="secondary" id="modal-close">CLOSE</button>button>
-              <button id="modal-go">OPEN GITHUB &rarr;</button>button>
+              <button class="secondary" id="modal-close">CLOSE</button>
+              <button id="modal-go">OPEN GITHUB &rarr;</button>
         </div>
     </div>
   </div>
