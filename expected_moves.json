@@ -1,616 +1,616 @@
 {
-  "generated_at": "2026-05-26T13:04:55.765010",
+  "generated_at": "2026-05-27T08:55:18.745193",
   "count": 102,
   "tickers": [
     {
       "ticker": "SPY",
-      "price": 745.64,
+      "price": 750.59,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "QQQ",
-      "price": 717.54,
+      "price": 730.28,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "IWM",
-      "price": 285.12,
+      "price": 290.51,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "DIA",
-      "price": 506.12,
+      "price": 505.25,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "VTI",
-      "price": 366.79,
+      "price": 369.46,
       "weekly_exp": "2026-06-18",
       "monthly_exp": "2026-06-18"
     },
     {
       "ticker": "VOO",
-      "price": 685.55,
+      "price": 690.01,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLF",
-      "price": 51.94,
+      "price": 51.85,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLK",
-      "price": 180.39,
+      "price": 185.14,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLE",
-      "price": 59.49,
+      "price": 57.85,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLV",
-      "price": 149.89,
+      "price": 148.51,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLI",
-      "price": 171.77,
+      "price": 174.3,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLY",
-      "price": 119.18,
+      "price": 119.45,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLP",
-      "price": 84.8,
+      "price": 83.63,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLB",
-      "price": 50.29,
+      "price": 50.99,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLU",
-      "price": 45.35,
+      "price": 45.33,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XLRE",
-      "price": 44.56,
+      "price": 44.71,
       "weekly_exp": "2026-06-18",
       "monthly_exp": "2026-06-18"
     },
     {
       "ticker": "AAPL",
-      "price": 308.82,
+      "price": 308.33,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MSFT",
-      "price": 418.57,
+      "price": 416.03,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "NVDA",
-      "price": 215.33,
+      "price": 214.86,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AMZN",
-      "price": 266.32,
+      "price": 265.29,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "GOOGL",
-      "price": 382.97,
+      "price": 388.88,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "META",
-      "price": 610.26,
+      "price": 612.34,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "TSLA",
-      "price": 426.01,
+      "price": 433.59,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AMD",
-      "price": 467.51,
+      "price": 503.89,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "INTC",
-      "price": 119.84,
+      "price": 123.52,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AVGO",
-      "price": 414.14,
+      "price": 422.01,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "QCOM",
-      "price": 238.16,
+      "price": 248.82,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "ORCL",
-      "price": 192.08,
+      "price": 193.06,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "CRM",
-      "price": 180.07,
+      "price": 179.08,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "ADBE",
-      "price": 244.76,
+      "price": 240.49,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "NFLX",
-      "price": 88.6,
+      "price": 87.68,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MU",
-      "price": 751.0,
+      "price": 895.88,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AMAT",
-      "price": 432.16,
+      "price": 454.89,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "KLAC",
-      "price": 1888.38,
+      "price": 2011.39,
       "weekly_exp": "2026-06-18",
       "monthly_exp": "2026-06-18"
     },
     {
       "ticker": "LRCX",
-      "price": 305.35,
+      "price": 322.68,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SNPS",
-      "price": 524.74,
+      "price": 534.56,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "CDNS",
-      "price": 373.59,
+      "price": 381.75,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "TSLL",
-      "price": 15.26,
+      "price": 15.79,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "TQQQ",
-      "price": 77.84,
+      "price": 81.95,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SQQQ",
-      "price": 41.5,
+      "price": 39.28,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "UVXY",
-      "price": 32.91,
+      "price": 31.41,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SPXL",
-      "price": 273.08,
+      "price": 278.39,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SPXS",
-      "price": 27.0,
+      "price": 26.49,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SOXL",
-      "price": 190.56,
+      "price": 225.79,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SOXS",
-      "price": 7.73,
+      "price": 6.29,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MSTU",
-      "price": 6.24,
+      "price": 6.23,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "NVDL",
-      "price": 106.79,
+      "price": 106.31,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "JPM",
-      "price": 306.38,
+      "price": 306.74,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "BAC",
-      "price": 51.8,
+      "price": 52.2,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "GS",
-      "price": 996.73,
+      "price": 994.52,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MS",
-      "price": 201.03,
+      "price": 201.76,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "WFC",
-      "price": 76.4,
+      "price": 77.52,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "C",
-      "price": 125.09,
+      "price": 126.86,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "BLK",
-      "price": 1073.0,
+      "price": 1077.4,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "V",
-      "price": 328.88,
+      "price": 326.48,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MA",
-      "price": 498.54,
+      "price": 493.01,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AXP",
-      "price": 311.78,
+      "price": 310.72,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "UNH",
-      "price": 388.47,
+      "price": 376.86,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "JNJ",
-      "price": 234.34,
+      "price": 230.18,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "PFE",
-      "price": 25.9,
+      "price": 25.85,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "ABBV",
-      "price": 215.7,
+      "price": 213.12,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MRK",
-      "price": 122.41,
+      "price": 119.72,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "LLY",
-      "price": 1065.0,
+      "price": 1064.74,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "BMY",
-      "price": 59.46,
+      "price": 58.03,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AMGN",
-      "price": 339.3,
+      "price": 335.94,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "XOM",
-      "price": 154.92,
+      "price": 149.81,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "CVX",
-      "price": 191.43,
+      "price": 184.71,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "COP",
-      "price": 120.46,
+      "price": 116.57,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "OXY",
-      "price": 58.81,
+      "price": 57.46,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SLB",
-      "price": 57.28,
+      "price": 57.98,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "HAL",
-      "price": 41.47,
+      "price": 41.08,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "GLD",
-      "price": 413.82,
+      "price": 414.0,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SLV",
-      "price": 68.36,
+      "price": 69.72,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "USO",
-      "price": 140.92,
+      "price": 137.0,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "GDX",
-      "price": 85.02,
+      "price": 88.5,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "GDXJ",
-      "price": 111.62,
+      "price": 116.66,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "UNG",
-      "price": 10.94,
+      "price": 10.91,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "WMT",
-      "price": 120.27,
+      "price": 118.57,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "TGT",
-      "price": 125.6,
+      "price": 125.43,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "COST",
-      "price": 1028.24,
+      "price": 1002.93,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "HD",
-      "price": 313.07,
+      "price": 310.54,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "LOW",
-      "price": 215.03,
+      "price": 212.08,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AMZN",
-      "price": 266.32,
+      "price": 265.29,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "DIS",
-      "price": 103.0,
+      "price": 103.28,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "NFLX",
-      "price": 88.6,
+      "price": 87.68,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "ROKU",
-      "price": 125.55,
+      "price": 127.61,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "COIN",
-      "price": 184.99,
+      "price": 180.01,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "MSTR",
-      "price": 159.89,
+      "price": 159.93,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "HOOD",
-      "price": 73.64,
+      "price": 74.09,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "IBIT",
-      "price": 42.96,
+      "price": 42.99,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "PLTR",
-      "price": 136.88,
+      "price": 136.6,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "SOFI",
-      "price": 15.62,
+      "price": 15.98,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "RIVN",
-      "price": 14.22,
+      "price": 14.39,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "LCID",
-      "price": 5.84,
+      "price": 5.97,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "GME",
-      "price": 21.96,
+      "price": 21.91,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "AMC",
-      "price": 1.51,
+      "price": 1.59,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-18"
     },
     {
       "ticker": "BA",
-      "price": 219.02,
+      "price": 218.9,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "RTX",
-      "price": 177.01,
+      "price": 178.97,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "LMT",
-      "price": 533.24,
+      "price": 532.9,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "CAT",
-      "price": 879.89,
+      "price": 908.55,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "T",
-      "price": 25.26,
+      "price": 25.02,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     },
     {
       "ticker": "VZ",
-      "price": 48.35,
+      "price": 48.49,
       "weekly_exp": "2026-05-29",
       "monthly_exp": "2026-06-26"
     }
