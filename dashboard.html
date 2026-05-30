@@ -684,7 +684,7 @@
                         const btn = document.getElementById('copy-pine-btn');
                         const original = btn.innerHTML;
                         try {
-                                      const res = await fetch(JSON_URL); const json = await res.json(); const text = json.tickers.flatMap(function(t){return ['if sym == "'+t.ticker+'"','  weeklyEM := '+t.weekly_em,'  monthlyEM := '+t.monthly_em,'  refPrice := '+t.price]);}).join("\n");
+                                      const res = await fetch(JSON_URL); const json = await res.json(); const text = json.tickers.flatMap(function(t){return ['if sym == "'+t.ticker+'"','  weeklyEM := '+t.weekly_em,'  monthlyEM := '+t.monthly_em,'  refPrice := '+t.price];}).join("\n");
 if                                        (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); } else { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
                                       btn.textContent = '\u2713 COPIED!';
                                       setTimeout(() => { btn.innerHTML = original; }, 2000);
