@@ -439,7 +439,7 @@
     <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="10">
     <button id="add-btn">+ ADD & FETCH</button>
     <button id="refresh-btn" class="secondary">&#8635; RELOAD DATA</button>
-    <button id="export-btn" class="secondary">&#10507; EXPORT PINE</button>
+    <button id="export-btn" class="secondary">&#10507; EXPORT PINE</button>            <button id="copy-pine-btn" class="secondary">&#128203; COPY PINE STRING</button>
   </div>
   
   <div class="sort-bar">
@@ -679,6 +679,21 @@
 
     document.getElementById('export-btn').addEventListener('click', () =>
         window.open(REPO_URL + '/blob/main/expected_move.pine', '_blank'));
+
+            document.getElementById('copy-pine-btn').addEventListener('click', async () => {
+                        const btn = document.getElementById('copy-pine-btn');
+                        const original = btn.innerHTML;
+                        try {
+                                      const res = await fetch(REPO_URL.replace('github.com', 'raw.githubusercontent.com') + '/refs/heads/main/expected_move.pine');
+                                      const text = await res.text();
+                                      await navigator.clipboard.writeText(text);
+                                      btn.textContent = '\u2713 COPIED!';
+                                      setTimeout(() => { btn.innerHTML = original; }, 2000);
+                        } catch (e) {
+                                      btn.textContent = 'ERROR';
+                                      setTimeout(() => { btn.innerHTML = original; }, 2000);
+                        }
+            });
 
     // ── Filter ────────────────────────────────────────────────────────────────────
     document.getElementById('filter-input').addEventListener('input', (e) => {
