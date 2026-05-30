@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <style>h
+  <style>
     :root {
         --bg: #0a0e14;
         --panel: #11161e;
@@ -684,8 +684,9 @@
                         const btn = document.getElementById('copy-pine-btn');
                         const original = btn.innerHTML;
                         try {
-                                      const res = await fetch(REPO_URL.replace('github.com', 'raw.githubusercontent.com') + '/refs/heads/main/expected_move.pine');
-                                      const text = await res.text();
+                                      const res = await fetch(JSON_URL); const json = await res.json(); const text = json.tickers.flatMap(function(t){return ['if sym == "'+t.ticker+'"','  weeklyEM := '+t.weekly_em,'  monthlyEM := '+t.monthly_em,'  refPrice := '+t.price];}).join('
+');
+                                      
                                       if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); } else { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
                                       btn.textContent = '\u2713 COPIED!';
                                       setTimeout(() => { btn.innerHTML = original; }, 2000);
