@@ -268,10 +268,12 @@
         letter-spacing: 1px;
     }
 
+    .em-daily .em-value { color: var(--accent); }
     .em-weekly .em-value { color: var(--green); }
     .em-monthly .em-value { color: var(--amber); }
     .em-value { font-weight: 500; }
 
+    .sort-highlight .em-daily .em-value { text-shadow: 0 0 8px rgba(0,255,136,0.7); }
     .sort-highlight .em-weekly .em-value { text-shadow: 0 0 8px rgba(63,185,80,0.6); }
     .sort-highlight .em-monthly .em-value { text-shadow: 0 0 8px rgba(210,153,34,0.6); }
 
@@ -444,6 +446,7 @@
   
   <div class="sort-bar">
     <label>SORT BY:</label>
+    <button class="sort-btn" data-sort="daily_em_pct">Daily EM %</button>
     <button class="sort-btn active" data-sort="weekly_em_pct">Weekly EM %</button>
     <button class="sort-btn" data-sort="monthly_em_pct">Monthly EM %</button>
     <button class="sort-btn" data-sort="weekly_em">Weekly EM $</button>
@@ -456,6 +459,7 @@
   
   <div id="stats-bar" class="stats-bar" style="display:none;">
     <div class="stat-item">SHOWING: <span id="stat-showing" class="stat-accent">--</span></div>
+    <div class="stat-item">AVG DAILY EM: <span id="stat-avg-daily" class="stat-green">--</span></div>
     <div class="stat-item">AVG WEEKLY EM: <span id="stat-avg-weekly" class="stat-accent">--</span></div>
     <div class="stat-item">AVG MONTHLY EM: <span id="stat-amber" class="stat-amber">--</span></div>
     <div class="stat-item">AVG IV: <span id="stat-avg-iv" class="stat-blue">--</span></div>
@@ -505,6 +509,7 @@
 
     // ── Sort helpers ────────────────────────────────────────────────────────────
     const SORT_KEYS = {
+        daily_em_pct:   t => (t.daily_em   && t.price) ? t.daily_em   / t.price * 100 : -Infinity,
         weekly_em_pct:  t => (t.weekly_em  && t.price) ? t.weekly_em  / t.price * 100 : -Infinity,
         monthly_em_pct: t => (t.monthly_em && t.price) ? t.monthly_em / t.price * 100 : -Infinity,
         weekly_em:      t => t.weekly_em  || -Infinity,
@@ -570,6 +575,7 @@
         const maxWTicker = items.find(t => t.weekly_em && t.price && Math.abs(t.weekly_em/t.price*100 - maxW) < 0.001);
 
         document.getElementById('stat-showing').textContent = `${items.length} / ${total}`;
+        document.getElementById('stat-avg-daily').textContent = items.filter(t=>t.daily_em && t.price).length > 0 ? (items.filter(t=>t.daily_em && t.price).reduce((s,t)=>s+t.daily_em/t.price*100, 0) / items.filter(t=>t.daily_em && t.price).length).toFixed(2)+'%' : '--';
         document.getElementById('stat-avg-weekly').textContent = avgW.toFixed(2) + '%';
         document.getElementById('stat-amber').textContent = avgM.toFixed(2) + '%';
         document.getElementById('stat-avg-iv').textContent = avgIV.toFixed(1) + '%';
@@ -613,7 +619,7 @@
                                     </div>
                                         <div class="price">$<span class="price-value">${price.toFixed(2)}</span></div>
                                           </div>
-                                            <div class="em-row em-weekly">
+                                            <div class="em-row em-daily">\n                  <span class="em-label">Daily</span>\n                  <span class="em-value">${t.daily_em ? "\u00b1$" + t.daily_em + " (" + (t.daily_em/t.price*100).toFixed(2) + "%)" : "N/A"}</span>\n                </div>\n                <div class="em-row em-weekly">
                                                 <span class="em-label">Weekly</span>
         <span class="em-value">&#177;$${weeklyEM.toFixed(2)} (${weeklyPct.toFixed(2)}%)</span>
           </div>
