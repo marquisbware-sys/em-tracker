@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <style>
+  <style>h
     :root {
         --bg: #0a0e14;
         --panel: #11161e;
@@ -686,7 +686,7 @@
                         try {
                                       const res = await fetch(REPO_URL.replace('github.com', 'raw.githubusercontent.com') + '/refs/heads/main/expected_move.pine');
                                       const text = await res.text();
-                                      await navigator.clipboard.writeText(text);
+                                      if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); } else { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
                                       btn.textContent = '\u2713 COPIED!';
                                       setTimeout(() => { btn.innerHTML = original; }, 2000);
                         } catch (e) {
