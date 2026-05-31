@@ -686,19 +686,28 @@
     document.getElementById('export-btn').addEventListener('click', () =>
         window.open(REPO_URL + '/blob/main/expected_move.pine', '_blank'));
 
-            document.getElementById('copy-pine-btn').addEventListener('click', async () => {
-                        const btn = document.getElementById('copy-pine-btn');
-                        const original = btn.innerHTML;
-                        try {
-      const res = await fetch(JSON_URL); const json = await res.json(); let _a=[]; for(let _i=0;_i<json.tickers.length;_i++){let _t=json.tickers[_i];let _b=(_i===0?'if':'else if')+' sym=="'+_t.ticker+'"\n  weeklyEM:='+_t.weekly_em+'\n  monthlyEM:='+_t.monthly_em+'\n  refPrice:='+_t.price+'\n';if((_a.join('')+_b).length>4096)break;_a.push(_b);} const text=_a.join('');
-if                                        (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); } else { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
-                                      btn.textContent = '\u2713 COPIED!';
-                                      setTimeout(() => { btn.innerHTML = original; }, 2000);
-                        } catch (e) {
-                                      btn.textContent = 'ERROR';
-                                      setTimeout(() => { btn.innerHTML = original; }, 2000);
-                        }
-            });
+  document.getElementById('copy-pine-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('copy-pine-btn');
+    const original = btn.innerHTML;
+    try {
+      const res = await fetch(JSON_URL);
+      const json = await res.json();
+      const text = json.tickers.map(t => t.ticker + ':' + t.weekly_em + ':' + t.monthly_em + ':' + t.price).join(',');
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      btn.textContent = '\u2713 COPIED!';
+      setTimeout(() => { btn.innerHTML = original; }, 2000);
+    } catch (e) {
+      btn.textContent = 'ERROR';
+      setTimeout(() => { btn.innerHTML = original; }, 2000);
+    }
+  });;;
 
     // ── Filter ────────────────────────────────────────────────────────────────────
     document.getElementById('filter-input').addEventListener('input', (e) => {
