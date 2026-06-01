@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-01T08:40:46.520905",
+  "generated_at": "2026-06-01T09:31:23.957806",
   "risk_free_rate": 0.0359,
-  "count": 100,
+  "count": 101,
   "tickers": [
     {
       "ticker": "ABBV",
@@ -225,6 +225,27 @@
       "monthly_iv": 26.44,
       "monthly_d16_call": 56.0,
       "monthly_d16_put": 47.4
+    },
+    {
+      "ticker": "BBAI",
+      "price": 5.04,
+      "updated": "2026-06-01T09:31:23.543773",
+      "weekly_em": 0.48,
+      "weekly_expiry": "2026-06-05",
+      "weekly_dte": 4,
+      "weekly_upper": 5.52,
+      "weekly_lower": 4.56,
+      "weekly_iv": 0.0,
+      "weekly_d16_call": 6.0,
+      "weekly_d16_put": 5.0,
+      "monthly_em": 1.15,
+      "monthly_expiry": "2026-07-02",
+      "monthly_dte": 31,
+      "monthly_upper": 6.19,
+      "monthly_lower": 3.89,
+      "monthly_iv": 0.0,
+      "monthly_d16_call": 5.5,
+      "monthly_d16_put": 5.0
     },
     {
       "ticker": "BLK",
