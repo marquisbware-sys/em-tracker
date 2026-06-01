@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-31T05:06:06.061585",
+  "generated_at": "2026-06-01T05:08:13.488509",
   "risk_free_rate": 0.0359,
-  "count": 99,
+  "count": 100,
   "tickers": [
     {
       "ticker": "ABBV",
@@ -894,6 +894,27 @@
       "monthly_iv": 37.56,
       "monthly_d16_call": 543.1,
       "monthly_d16_put": 453.7
+    },
+    {
+      "ticker": "MARA",
+      "price": 14.38,
+      "updated": "2026-06-01T05:08:12.992146",
+      "weekly_em": 1.05,
+      "weekly_expiry": "2026-06-05",
+      "weekly_dte": 4,
+      "weekly_upper": 15.43,
+      "weekly_lower": 13.33,
+      "weekly_iv": 3.13,
+      "weekly_d16_call": 14.5,
+      "weekly_d16_put": 12.0,
+      "monthly_em": 2.3,
+      "monthly_expiry": "2026-07-02",
+      "monthly_dte": 31,
+      "monthly_upper": 16.68,
+      "monthly_lower": 12.08,
+      "monthly_iv": 1.56,
+      "monthly_d16_call": 14.5,
+      "monthly_d16_put": 13.0
     },
     {
       "ticker": "META",
