@@ -38,6 +38,31 @@
               radial-gradient(circle at 80% 100%, rgba(88, 166, 255, 0.04) 0%, transparent 50%);
     }
 
+    /* ── Navigation ───────────────────────────────────────────────── */
+    .nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+    .nav a {
+        color: var(--text-dim);
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        transition: all 0.15s;
+        text-transform: uppercase;
+    }
+    .nav a:hover { border-color: var(--accent); color: var(--accent); }
+    .nav a.active {
+        color: var(--accent);
+        border-color: rgba(0,255,136,0.4);
+        background: rgba(0,255,136,0.08);
+    }
+
     .header {
         display: flex;
         align-items: baseline;
@@ -426,6 +451,16 @@
     </style>
   </head>
   <body>
+
+    <nav class="nav">
+        <a href="dashboard.html" class="active">EM</a>
+        <a href="../gex-tracker/dashboard.html">GEX</a>
+        <a href="../seasonality-tracker/dashboard.html">Seasonality</a>
+        <a href="../ninja-system/system.html">System</a>
+        <a href="../ninja-system/checklist.html">Checklist</a>
+        <a href="../briefing/briefing.html">Briefing</a>
+        <a href="../cot-tracker/dashboard.html">COT</a>
+    </nav>
 
     <div class="header">
         <div>
