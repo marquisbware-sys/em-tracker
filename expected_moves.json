@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-03T16:11:44.358723",
+  "generated_at": "2026-07-03T21:57:55.119951",
   "risk_free_rate": 0.0366,
   "count": 99,
   "tickers": [
     {
       "ticker": "ABBV",
       "price": 261.07,
-      "updated": "2026-07-03T16:11:18.325236",
+      "updated": "2026-07-03T21:57:28.259121",
       "weekly_em": 6.86,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -27,7 +27,7 @@
     {
       "ticker": "ADBE",
       "price": 219.72,
-      "updated": "2026-07-03T16:10:57.860544",
+      "updated": "2026-07-03T21:57:07.230808",
       "weekly_em": 8.95,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -48,7 +48,7 @@
     {
       "ticker": "AMAT",
       "price": 603.04,
-      "updated": "2026-07-03T16:10:59.870123",
+      "updated": "2026-07-03T21:57:09.348185",
       "weekly_em": 51.72,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -69,7 +69,7 @@
     {
       "ticker": "AMC",
       "price": 1.89,
-      "updated": "2026-07-03T16:11:39.638352",
+      "updated": "2026-07-03T21:57:50.150936",
       "weekly_em": 0.31,
       "weekly_expiry": "2026-07-17",
       "weekly_dte": 14,
@@ -90,7 +90,7 @@
     {
       "ticker": "AMD",
       "price": 517.82,
-      "updated": "2026-07-03T16:10:53.909257",
+      "updated": "2026-07-03T21:57:03.171523",
       "weekly_em": 35.55,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -111,7 +111,7 @@
     {
       "ticker": "AMGN",
       "price": 374.15,
-      "updated": "2026-07-03T16:11:21.182695",
+      "updated": "2026-07-03T21:57:31.274520",
       "weekly_em": 9.84,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -132,7 +132,7 @@
     {
       "ticker": "AMZN",
       "price": 242.67,
-      "updated": "2026-07-03T16:10:51.486976",
+      "updated": "2026-07-03T21:57:00.611896",
       "weekly_em": 7.99,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -153,7 +153,7 @@
     {
       "ticker": "AVGO",
       "price": 360.45,
-      "updated": "2026-07-03T16:10:55.311393",
+      "updated": "2026-07-03T21:57:04.603114",
       "weekly_em": 17.06,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -174,7 +174,7 @@
     {
       "ticker": "AXP",
       "price": 351.96,
-      "updated": "2026-07-03T16:11:15.602753",
+      "updated": "2026-07-03T21:57:25.407554",
       "weekly_em": 9.2,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -195,7 +195,7 @@
     {
       "ticker": "BA",
       "price": 226.49,
-      "updated": "2026-07-03T16:11:40.395229",
+      "updated": "2026-07-03T21:57:50.937879",
       "weekly_em": 6.72,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -216,7 +216,7 @@
     {
       "ticker": "BAC",
       "price": 58.73,
-      "updated": "2026-07-03T16:11:10.181341",
+      "updated": "2026-07-03T21:57:19.913324",
       "weekly_em": 1.14,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -237,7 +237,7 @@
     {
       "ticker": "BLK",
       "price": 995.73,
-      "updated": "2026-07-03T16:11:13.554360",
+      "updated": "2026-07-03T21:57:23.399161",
       "weekly_em": 31.36,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -250,7 +250,7 @@
     {
       "ticker": "BMY",
       "price": 58.13,
-      "updated": "2026-07-03T16:11:20.496947",
+      "updated": "2026-07-03T21:57:30.681960",
       "weekly_em": 1.44,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -271,7 +271,7 @@
     {
       "ticker": "C",
       "price": 139.97,
-      "updated": "2026-07-03T16:11:12.941459",
+      "updated": "2026-07-03T21:57:22.753769",
       "weekly_em": 3.84,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -292,7 +292,7 @@
     {
       "ticker": "CAT",
       "price": 963.53,
-      "updated": "2026-07-03T16:11:42.597035",
+      "updated": "2026-07-03T21:57:53.303170",
       "weekly_em": 43.6,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -313,7 +313,7 @@
     {
       "ticker": "CDNS",
       "price": 373.14,
-      "updated": "2026-07-03T16:11:02.831732",
+      "updated": "2026-07-03T21:57:12.174235",
       "weekly_em": 17.94,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -326,7 +326,7 @@
     {
       "ticker": "COIN",
       "price": 165.48,
-      "updated": "2026-07-03T16:11:34.403697",
+      "updated": "2026-07-03T21:57:44.713216",
       "weekly_em": 11.69,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -347,7 +347,7 @@
     {
       "ticker": "COP",
       "price": 104.73,
-      "updated": "2026-07-03T16:11:23.389622",
+      "updated": "2026-07-03T21:57:33.520474",
       "weekly_em": 3.03,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -368,7 +368,7 @@
     {
       "ticker": "COST",
       "price": 951.67,
-      "updated": "2026-07-03T16:11:31.161954",
+      "updated": "2026-07-03T21:57:41.452235",
       "weekly_em": 21.0,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -389,7 +389,7 @@
     {
       "ticker": "CRM",
       "price": 166.11,
-      "updated": "2026-07-03T16:10:57.279711",
+      "updated": "2026-07-03T21:57:06.605844",
       "weekly_em": 6.78,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -410,7 +410,7 @@
     {
       "ticker": "CVX",
       "price": 169.2,
-      "updated": "2026-07-03T16:11:22.730571",
+      "updated": "2026-07-03T21:57:32.832313",
       "weekly_em": 4.25,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -431,7 +431,7 @@
     {
       "ticker": "DIA",
       "price": 527.88,
-      "updated": "2026-07-03T16:10:41.788235",
+      "updated": "2026-07-03T21:56:50.608260",
       "weekly_em": 5.59,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -452,7 +452,7 @@
     {
       "ticker": "DIS",
       "price": 99.5,
-      "updated": "2026-07-03T16:11:33.239328",
+      "updated": "2026-07-03T21:57:43.569052",
       "weekly_em": 2.4,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -473,7 +473,7 @@
     {
       "ticker": "GDX",
       "price": 78.43,
-      "updated": "2026-07-03T16:11:28.016235",
+      "updated": "2026-07-03T21:57:38.200286",
       "weekly_em": 3.23,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -494,7 +494,7 @@
     {
       "ticker": "GDXJ",
       "price": 102.91,
-      "updated": "2026-07-03T16:11:28.603093",
+      "updated": "2026-07-03T21:57:38.822046",
       "weekly_em": 4.53,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -515,7 +515,7 @@
     {
       "ticker": "GLD",
       "price": 378.13,
-      "updated": "2026-07-03T16:11:25.942646",
+      "updated": "2026-07-03T21:57:36.264838",
       "weekly_em": 8.61,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -536,7 +536,7 @@
     {
       "ticker": "GME",
       "price": 22.82,
-      "updated": "2026-07-03T16:11:39.039275",
+      "updated": "2026-07-03T21:57:49.580799",
       "weekly_em": 0.76,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -557,7 +557,7 @@
     {
       "ticker": "GOOGL",
       "price": 359.91,
-      "updated": "2026-07-03T16:10:52.115853",
+      "updated": "2026-07-03T21:57:01.212092",
       "weekly_em": 11.35,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -578,7 +578,7 @@
     {
       "ticker": "GS",
       "price": 1021.0,
-      "updated": "2026-07-03T16:11:10.867099",
+      "updated": "2026-07-03T21:57:20.559620",
       "weekly_em": 31.62,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -599,7 +599,7 @@
     {
       "ticker": "HAL",
       "price": 32.96,
-      "updated": "2026-07-03T16:11:25.400028",
+      "updated": "2026-07-03T21:57:35.662118",
       "weekly_em": 1.06,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -612,7 +612,7 @@
     {
       "ticker": "HD",
       "price": 357.9,
-      "updated": "2026-07-03T16:11:31.851244",
+      "updated": "2026-07-03T21:57:42.155698",
       "weekly_em": 9.16,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -633,7 +633,7 @@
     {
       "ticker": "HOOD",
       "price": 112.73,
-      "updated": "2026-07-03T16:11:35.597851",
+      "updated": "2026-07-03T21:57:45.950752",
       "weekly_em": 7.5,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -654,7 +654,7 @@
     {
       "ticker": "IBIT",
       "price": 34.87,
-      "updated": "2026-07-03T16:11:36.157213",
+      "updated": "2026-07-03T21:57:46.528081",
       "weekly_em": 1.3,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -675,7 +675,7 @@
     {
       "ticker": "INTC",
       "price": 120.35,
-      "updated": "2026-07-03T16:10:54.639834",
+      "updated": "2026-07-03T21:57:03.946887",
       "weekly_em": 10.67,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -696,7 +696,7 @@
     {
       "ticker": "IWM",
       "price": 297.58,
-      "updated": "2026-07-03T16:10:41.126861",
+      "updated": "2026-07-03T21:56:49.898219",
       "weekly_em": 4.97,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -717,7 +717,7 @@
     {
       "ticker": "JNJ",
       "price": 263.04,
-      "updated": "2026-07-03T16:11:16.988176",
+      "updated": "2026-07-03T21:57:26.895150",
       "weekly_em": 6.72,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -738,7 +738,7 @@
     {
       "ticker": "JPM",
       "price": 334.47,
-      "updated": "2026-07-03T16:11:09.541122",
+      "updated": "2026-07-03T21:57:19.229179",
       "weekly_em": 7.11,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -759,7 +759,7 @@
     {
       "ticker": "KLAC",
       "price": 235.55,
-      "updated": "2026-07-03T16:11:00.536529",
+      "updated": "2026-07-03T21:57:10.106010",
       "weekly_em": 31.92,
       "weekly_expiry": "2026-07-17",
       "weekly_dte": 14,
@@ -780,7 +780,7 @@
     {
       "ticker": "LCID",
       "price": 6.08,
-      "updated": "2026-07-03T16:11:38.441861",
+      "updated": "2026-07-03T21:57:48.952258",
       "weekly_em": 0.41,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -801,7 +801,7 @@
     {
       "ticker": "LLY",
       "price": 1213.91,
-      "updated": "2026-07-03T16:11:19.762527",
+      "updated": "2026-07-03T21:57:29.812788",
       "weekly_em": 40.23,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -822,7 +822,7 @@
     {
       "ticker": "LMT",
       "price": 545.91,
-      "updated": "2026-07-03T16:11:41.878996",
+      "updated": "2026-07-03T21:57:52.496584",
       "weekly_em": 16.28,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -843,7 +843,7 @@
     {
       "ticker": "LOW",
       "price": 227.5,
-      "updated": "2026-07-03T16:11:32.545344",
+      "updated": "2026-07-03T21:57:42.872245",
       "weekly_em": 6.2,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -864,7 +864,7 @@
     {
       "ticker": "LRCX",
       "price": 351.41,
-      "updated": "2026-07-03T16:11:01.662191",
+      "updated": "2026-07-03T21:57:10.899652",
       "weekly_em": 30.64,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -885,7 +885,7 @@
     {
       "ticker": "MA",
       "price": 539.39,
-      "updated": "2026-07-03T16:11:14.849330",
+      "updated": "2026-07-03T21:57:24.686628",
       "weekly_em": 12.37,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -906,7 +906,7 @@
     {
       "ticker": "META",
       "price": 582.9,
-      "updated": "2026-07-03T16:10:52.735564",
+      "updated": "2026-07-03T21:57:01.859952",
       "weekly_em": 20.74,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -927,7 +927,7 @@
     {
       "ticker": "MRK",
       "price": 129.56,
-      "updated": "2026-07-03T16:11:19.051830",
+      "updated": "2026-07-03T21:57:29.055522",
       "weekly_em": 3.42,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -948,7 +948,7 @@
     {
       "ticker": "MS",
       "price": 213.93,
-      "updated": "2026-07-03T16:11:11.531927",
+      "updated": "2026-07-03T21:57:21.361301",
       "weekly_em": 6.38,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -969,7 +969,7 @@
     {
       "ticker": "MSFT",
       "price": 390.49,
-      "updated": "2026-07-03T16:10:50.258890",
+      "updated": "2026-07-03T21:56:59.274733",
       "weekly_em": 13.15,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -990,7 +990,7 @@
     {
       "ticker": "MSTR",
       "price": 100.77,
-      "updated": "2026-07-03T16:11:34.976497",
+      "updated": "2026-07-03T21:57:45.324536",
       "weekly_em": 9.09,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1011,7 +1011,7 @@
     {
       "ticker": "MSTU",
       "price": 2.15,
-      "updated": "2026-07-03T16:11:08.224425",
+      "updated": "2026-07-03T21:57:17.840279",
       "weekly_em": 0.39,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1032,7 +1032,7 @@
     {
       "ticker": "MU",
       "price": 975.56,
-      "updated": "2026-07-03T16:10:59.077675",
+      "updated": "2026-07-03T21:57:08.565516",
       "weekly_em": 104.59,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1053,7 +1053,7 @@
     {
       "ticker": "NFLX",
       "price": 77.65,
-      "updated": "2026-07-03T16:10:58.413351",
+      "updated": "2026-07-03T21:57:07.814820",
       "weekly_em": 2.54,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1074,7 +1074,7 @@
     {
       "ticker": "NVDA",
       "price": 194.83,
-      "updated": "2026-07-03T16:10:50.932505",
+      "updated": "2026-07-03T21:56:59.958556",
       "weekly_em": 6.97,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1095,7 +1095,7 @@
     {
       "ticker": "NVDL",
       "price": 28.22,
-      "updated": "2026-07-03T16:11:08.829963",
+      "updated": "2026-07-03T21:57:18.440800",
       "weekly_em": 2.02,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1116,7 +1116,7 @@
     {
       "ticker": "ORCL",
       "price": 140.27,
-      "updated": "2026-07-03T16:10:56.690248",
+      "updated": "2026-07-03T21:57:05.976599",
       "weekly_em": 7.71,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1137,7 +1137,7 @@
     {
       "ticker": "OXY",
       "price": 48.91,
-      "updated": "2026-07-03T16:11:24.055547",
+      "updated": "2026-07-03T21:57:34.258610",
       "weekly_em": 1.5,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1158,7 +1158,7 @@
     {
       "ticker": "PFE",
       "price": 24.32,
-      "updated": "2026-07-03T16:11:17.749754",
+      "updated": "2026-07-03T21:57:27.644004",
       "weekly_em": 0.5,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1179,7 +1179,7 @@
     {
       "ticker": "PLTR",
       "price": 129.3,
-      "updated": "2026-07-03T16:11:36.760598",
+      "updated": "2026-07-03T21:57:47.186557",
       "weekly_em": 6.44,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1200,7 +1200,7 @@
     {
       "ticker": "QCOM",
       "price": 176.25,
-      "updated": "2026-07-03T16:10:56.083737",
+      "updated": "2026-07-03T21:57:05.296832",
       "weekly_em": 11.5,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1221,7 +1221,7 @@
     {
       "ticker": "QQQ",
       "price": 712.6,
-      "updated": "2026-07-03T16:10:40.465376",
+      "updated": "2026-07-03T21:56:49.102052",
       "weekly_em": 16.42,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1242,7 +1242,7 @@
     {
       "ticker": "RIVN",
       "price": 18.63,
-      "updated": "2026-07-03T16:11:37.897641",
+      "updated": "2026-07-03T21:57:48.389900",
       "weekly_em": 1.37,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1263,7 +1263,7 @@
     {
       "ticker": "ROKU",
       "price": 142.43,
-      "updated": "2026-07-03T16:11:33.820359",
+      "updated": "2026-07-03T21:57:44.130325",
       "weekly_em": 2.53,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1284,7 +1284,7 @@
     {
       "ticker": "RTX",
       "price": 199.25,
-      "updated": "2026-07-03T16:11:41.102227",
+      "updated": "2026-07-03T21:57:51.747373",
       "weekly_em": 4.9,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1305,7 +1305,7 @@
     {
       "ticker": "SLB",
       "price": 45.13,
-      "updated": "2026-07-03T16:11:24.718685",
+      "updated": "2026-07-03T21:57:34.946029",
       "weekly_em": 1.5,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1326,7 +1326,7 @@
     {
       "ticker": "SLV",
       "price": 55.02,
-      "updated": "2026-07-03T16:11:26.689094",
+      "updated": "2026-07-03T21:57:36.908984",
       "weekly_em": 2.32,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1347,7 +1347,7 @@
     {
       "ticker": "SNPS",
       "price": 437.16,
-      "updated": "2026-07-03T16:11:02.238916",
+      "updated": "2026-07-03T21:57:11.537692",
       "weekly_em": 22.61,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1368,7 +1368,7 @@
     {
       "ticker": "SOFI",
       "price": 18.24,
-      "updated": "2026-07-03T16:11:37.342441",
+      "updated": "2026-07-03T21:57:47.801826",
       "weekly_em": 0.99,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1389,7 +1389,7 @@
     {
       "ticker": "SOXL",
       "price": 181.47,
-      "updated": "2026-07-03T16:11:06.988317",
+      "updated": "2026-07-03T21:57:16.644728",
       "weekly_em": 32.45,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1410,7 +1410,7 @@
     {
       "ticker": "SOXS",
       "price": 4.51,
-      "updated": "2026-07-03T16:11:07.641527",
+      "updated": "2026-07-03T21:57:17.268315",
       "weekly_em": 0.82,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1431,7 +1431,7 @@
     {
       "ticker": "SPXL",
       "price": 268.81,
-      "updated": "2026-07-03T16:11:05.765935",
+      "updated": "2026-07-03T21:57:15.326037",
       "weekly_em": 7.9,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1452,7 +1452,7 @@
     {
       "ticker": "SPXS",
       "price": 26.7,
-      "updated": "2026-07-03T16:11:06.334006",
+      "updated": "2026-07-03T21:57:15.921945",
       "weekly_em": 0.83,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1473,7 +1473,7 @@
     {
       "ticker": "SPY",
       "price": 744.78,
-      "updated": "2026-07-03T16:10:39.726138",
+      "updated": "2026-07-03T21:56:48.348447",
       "weekly_em": 8.05,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1494,7 +1494,7 @@
     {
       "ticker": "SQQQ",
       "price": 39.95,
-      "updated": "2026-07-03T16:11:04.616937",
+      "updated": "2026-07-03T21:57:14.064347",
       "weekly_em": 2.79,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1515,7 +1515,7 @@
     {
       "ticker": "T",
       "price": 20.58,
-      "updated": "2026-07-03T16:11:43.259311",
+      "updated": "2026-07-03T21:57:54.023531",
       "weekly_em": 0.86,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1536,7 +1536,7 @@
     {
       "ticker": "TGT",
       "price": 130.21,
-      "updated": "2026-07-03T16:11:30.522037",
+      "updated": "2026-07-03T21:57:40.820165",
       "weekly_em": 3.89,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1549,7 +1549,7 @@
     {
       "ticker": "TQQQ",
       "price": 73.35,
-      "updated": "2026-07-03T16:11:03.994001",
+      "updated": "2026-07-03T21:57:13.442073",
       "weekly_em": 5.05,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1570,7 +1570,7 @@
     {
       "ticker": "TSLA",
       "price": 393.45,
-      "updated": "2026-07-03T16:10:53.316970",
+      "updated": "2026-07-03T21:57:02.519100",
       "weekly_em": 17.21,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1591,7 +1591,7 @@
     {
       "ticker": "TSLL",
       "price": 12.3,
-      "updated": "2026-07-03T16:11:03.396684",
+      "updated": "2026-07-03T21:57:12.806226",
       "weekly_em": 1.06,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1612,7 +1612,7 @@
     {
       "ticker": "UNG",
       "price": 11.58,
-      "updated": "2026-07-03T16:11:29.175371",
+      "updated": "2026-07-03T21:57:39.384305",
       "weekly_em": 0.44,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1633,7 +1633,7 @@
     {
       "ticker": "UNH",
       "price": 425.36,
-      "updated": "2026-07-03T16:11:16.255350",
+      "updated": "2026-07-03T21:57:26.141817",
       "weekly_em": 10.41,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1654,7 +1654,7 @@
     {
       "ticker": "USO",
       "price": 103.98,
-      "updated": "2026-07-03T16:11:27.253128",
+      "updated": "2026-07-03T21:57:37.506785",
       "weekly_em": 3.67,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1675,7 +1675,7 @@
     {
       "ticker": "UVXY",
       "price": 24.8,
-      "updated": "2026-07-03T16:11:05.186845",
+      "updated": "2026-07-03T21:57:14.701081",
       "weekly_em": 1.44,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1696,7 +1696,7 @@
     {
       "ticker": "V",
       "price": 362.13,
-      "updated": "2026-07-03T16:11:14.180420",
+      "updated": "2026-07-03T21:57:24.006129",
       "weekly_em": 11.78,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1717,7 +1717,7 @@
     {
       "ticker": "VOO",
       "price": 684.84,
-      "updated": "2026-07-03T16:10:43.024782",
+      "updated": "2026-07-03T21:56:52.245648",
       "weekly_em": 7.16,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1738,7 +1738,7 @@
     {
       "ticker": "VTI",
       "price": 368.76,
-      "updated": "2026-07-03T16:10:42.418496",
+      "updated": "2026-07-03T21:56:51.630693",
       "weekly_em": 6.29,
       "weekly_expiry": "2026-07-17",
       "weekly_dte": 14,
@@ -1759,7 +1759,7 @@
     {
       "ticker": "VZ",
       "price": 42.56,
-      "updated": "2026-07-03T16:11:43.947860",
+      "updated": "2026-07-03T21:57:54.702099",
       "weekly_em": 1.56,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1780,7 +1780,7 @@
     {
       "ticker": "WFC",
       "price": 85.51,
-      "updated": "2026-07-03T16:11:12.264026",
+      "updated": "2026-07-03T21:57:22.069293",
       "weekly_em": 2.01,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1801,7 +1801,7 @@
     {
       "ticker": "WMT",
       "price": 111.84,
-      "updated": "2026-07-03T16:11:29.856973",
+      "updated": "2026-07-03T21:57:40.055782",
       "weekly_em": 2.6,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1822,7 +1822,7 @@
     {
       "ticker": "XLB",
       "price": 52.01,
-      "updated": "2026-07-03T16:10:48.369643",
+      "updated": "2026-07-03T21:56:57.448260",
       "weekly_em": 1.03,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1835,7 +1835,7 @@
     {
       "ticker": "XLE",
       "price": 53.22,
-      "updated": "2026-07-03T16:10:45.084455",
+      "updated": "2026-07-03T21:56:54.185048",
       "weekly_em": 1.19,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1856,7 +1856,7 @@
     {
       "ticker": "XLF",
       "price": 55.62,
-      "updated": "2026-07-03T16:10:43.698215",
+      "updated": "2026-07-03T21:56:52.907599",
       "weekly_em": 0.78,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1869,7 +1869,7 @@
     {
       "ticker": "XLI",
       "price": 183.91,
-      "updated": "2026-07-03T16:10:46.306491",
+      "updated": "2026-07-03T21:56:55.555590",
       "weekly_em": 6.67,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1890,7 +1890,7 @@
     {
       "ticker": "XLK",
       "price": 180.59,
-      "updated": "2026-07-03T16:10:44.467281",
+      "updated": "2026-07-03T21:56:53.540607",
       "weekly_em": 6.46,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1911,7 +1911,7 @@
     {
       "ticker": "XLP",
       "price": 84.99,
-      "updated": "2026-07-03T16:10:47.713125",
+      "updated": "2026-07-03T21:56:56.814819",
       "weekly_em": 1.15,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1932,7 +1932,7 @@
     {
       "ticker": "XLRE",
       "price": 44.68,
-      "updated": "2026-07-03T16:10:49.601233",
+      "updated": "2026-07-03T21:56:58.637995",
       "weekly_em": 0.85,
       "weekly_expiry": "2026-07-17",
       "weekly_dte": 14,
@@ -1953,7 +1953,7 @@
     {
       "ticker": "XLU",
       "price": 45.76,
-      "updated": "2026-07-03T16:10:49.005364",
+      "updated": "2026-07-03T21:56:58.060654",
       "weekly_em": 1.45,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1974,7 +1974,7 @@
     {
       "ticker": "XLV",
       "price": 163.74,
-      "updated": "2026-07-03T16:10:45.693319",
+      "updated": "2026-07-03T21:56:54.866341",
       "weekly_em": 3.88,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -1995,7 +1995,7 @@
     {
       "ticker": "XLY",
       "price": 117.12,
-      "updated": "2026-07-03T16:10:46.934420",
+      "updated": "2026-07-03T21:56:56.191106",
       "weekly_em": 4.23,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
@@ -2008,7 +2008,7 @@
     {
       "ticker": "XOM",
       "price": 137.09,
-      "updated": "2026-07-03T16:11:21.960853",
+      "updated": "2026-07-03T21:57:32.105895",
       "weekly_em": 3.64,
       "weekly_expiry": "2026-07-10",
       "weekly_dte": 7,
