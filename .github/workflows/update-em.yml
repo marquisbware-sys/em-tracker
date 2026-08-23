@@ -2,10 +2,6 @@ name: Update Expected Moves
 
 on:
   schedule:
-    # Daily at 14:45 UTC = 9:45am ET (15 min after market open, 0DTE options have live prices)
-    - cron: '45 14 * * 1-5'
-    # Monday-Thursday at 21:00 UTC = 4pm CT (market close, fresh end-of-day data)
-    - cron: '0 21 * * 1-4'
     # Friday at 21:00 UTC = 4pm CT (right after market close)
     - cron: '0 21 * * 5'
     # Sunday at 23:00 UTC = 6pm CT (ready for Monday open)
