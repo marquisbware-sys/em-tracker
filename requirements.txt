@@ -1,5 +1,5 @@
-# Pin yfinance to a known-good version once you confirm one works.
-# The version each run used is saved as "yfinance_version" in expected_moves.json
-# and shown in the dashboard status bar. Example: yfinance==1.0.0
-yfinance
+# yfinance pinned to the version that produced a clean run on 2026-11-15.
+# Bump it deliberately: change the number, run the workflow once, and check
+# the dashboard status bar shows 0 SUSPECT before trusting the data.
+yfinance==1.8.0
 pandas
