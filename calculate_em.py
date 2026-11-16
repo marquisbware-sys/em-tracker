@@ -45,7 +45,7 @@ WATCHLIST = [
     "GLD", "SLV", "USO", "GDX", "GDXJ", "UNG",
     "WMT", "TGT", "COST", "HD", "LOW", "DIS", "ROKU",
     "COIN", "MSTR", "HOOD", "IBIT", "PLTR", "SOFI",
-    "RIVN", "LCID", "GME", "AMC",
+    "SPCX", "LCID", "GME", "AMC",
     "BA", "RTX", "LMT", "CAT", "T", "VZ",
 ]
 
@@ -492,6 +492,7 @@ def main():
     output = sanitize({
         "generated_at": datetime.now().isoformat(),
         "risk_free_rate": round(rfr, 4),
+        "yfinance_version": getattr(yf, "__version__", "unknown"),
         "count": len(results),
         "tickers": sorted(results, key=lambda x: x["ticker"]),
     })

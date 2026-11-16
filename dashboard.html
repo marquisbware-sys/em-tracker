@@ -22,6 +22,7 @@
         --blue: #58a6ff;
         --accent: #00ff88;
         --purple: #bc8cff;
+        --cyan: #56d4dd;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -448,6 +449,44 @@
         word-break: break-all;
         font-size: 11px;
     }
+
+    /* ── v6 additions ─────────────────────────────────────────────── */
+    .data-status {
+        display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+        margin-bottom: 16px; padding: 10px 14px;
+        background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+        font-size: 11px; color: var(--text-dim);
+    }
+    .data-status span b { color: var(--text); font-weight: 500; }
+    .data-status .ok   { color: var(--green); }
+    .data-status .warn { color: var(--amber); }
+    .data-status .bad  { color: var(--red); }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .chip {
+        background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+        padding: 4px 12px; font-size: 11px; border-radius: 12px; cursor: pointer;
+        font-family: inherit; font-weight: 500; letter-spacing: 0.5px;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); filter: none; }
+    .chip.active { border-color: var(--accent); color: var(--accent); background: rgba(0,255,136,0.07); }
+    .em-d16 .em-value { color: var(--cyan); }
+    .em-d16 .em-label { color: var(--cyan); opacity: 0.85; }
+    .em-skew .em-value { color: var(--purple); }
+    .em-ref .em-value { color: var(--text); }
+    .flag {
+        font-size: 9px; letter-spacing: 0.5px; padding: 1px 5px; border-radius: 3px;
+        border: 1px solid; margin-left: 4px; vertical-align: middle;
+    }
+    .flag.bad  { color: var(--red);   border-color: rgba(248,81,73,0.5); }
+    .flag.warn { color: var(--amber); border-color: rgba(210,153,34,0.5); }
+    .card.suspect { border-color: rgba(248,81,73,0.45); opacity: 0.75; }
+    .range-labels { display: flex; justify-content: space-between; }
+    .range-labels .c { color: var(--text); }
+    .range-tick {
+        position: absolute; top: -2px; width: 2px; height: 8px; background: var(--cyan);
+    }
+    .range-legend { margin-top: 4px; font-size: 10px; color: var(--text-dim); }
+    .range-legend i { display: inline-block; width: 8px; height: 8px; vertical-align: middle; margin-right: 3px; }
     </style>
   </head>
   <body>
@@ -464,299 +503,424 @@
 
     <div class="header">
         <div>
-              <h1>EXPECTED MOVE TRACKER</h1>
-            <div class="status">DATA LIVE</div>
+            <h1>EXPECTED MOVE TRACKER</h1>
+            <div class="status" id="live-status">DATA LIVE</div>
         </div>
-      <div class="header-meta">
-          UPDATED <span id="last-updated">--</span><br>
-          <span id="ticker-count">--</span> TICKERS TRACKED &nbsp;|&nbsp; TOP 100 MODE
-      </div>
-    </div>
-  
-  <div class="controls">
-    <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="10">
-    <button id="add-btn">+ ADD & FETCH</button>
-    <button id="refresh-btn" class="secondary">&#8635; RELOAD DATA</button>
-    <button id="export-btn" class="secondary">&#10507; EXPORT PINE</button>            <button id="copy-pine-btn" class="secondary">&#128203; COPY PINE STRING</button>
-  </div>
-  
-  <div class="sort-bar">
-    <label>SORT BY:</label>
-    <button class="sort-btn" data-sort="daily_em_pct">Daily EM %</button>
-    <button class="sort-btn active" data-sort="weekly_em_pct">Weekly EM %</button>
-    <button class="sort-btn" data-sort="monthly_em_pct">Monthly EM %</button>
-    <button class="sort-btn" data-sort="weekly_em">Weekly EM $</button>
-    <button class="sort-btn" data-sort="monthly_em">Monthly EM $</button>
-    <button class="sort-btn" data-sort="weekly_iv">IV %</button>
-    <button class="sort-btn" data-sort="price">Price</button>
-    <button class="sort-btn" data-sort="ticker_alpha">Ticker A-Z</button>
-    <span class="top100-badge">&#9650; TOP 100</span>
-  </div>
-  
-  <div id="stats-bar" class="stats-bar" style="display:none;">
-    <div class="stat-item">SHOWING: <span id="stat-showing" class="stat-accent">--</span></div>
-    <div class="stat-item">AVG DAILY EM: <span id="stat-avg-daily" class="stat-green">--</span></div>
-    <div class="stat-item">AVG WEEKLY EM: <span id="stat-avg-weekly" class="stat-accent">--</span></div>
-    <div class="stat-item">AVG MONTHLY EM: <span id="stat-amber" class="stat-amber">--</span></div>
-    <div class="stat-item">AVG IV: <span id="stat-avg-iv" class="stat-blue">--</span></div>
-    <div class="stat-item">HIGHEST WEEKLY EM%: <span id="stat-max-weekly" class="stat-accent">--</span></div>
-  </div>
-  
-  <div class="filter-bar">
-    FILTER: <input type="text" id="filter-input" placeholder="type to filter...">
-  </div>
-  
-  <div id="grid" class="grid"></div>
-  
-  <div class="footer">
-    <strong>How it works:</strong> Python script runs on GitHub Actions every Friday 4pm CT and Sunday 6pm CT, pulls options data from yfinance, calculates EM via ATM straddle &times; 0.85. Tracks top 100 tickers ranked by the selected characteristic.
-    Add a ticker above to trigger a one-off GitHub Actions run for that symbol. Allow 30-60 seconds for the JSON to refresh, then click reload.<br>
-    <strong>Pine Script:</strong> Copy <code style="display: inline; padding: 1px 6px; background: var(--panel); border-radius: 3px; font-size: 11px;">expected_move.pine</code> from the repo and paste into TradingView's Pine Editor.
-  </div>
-  
-  <div class="modal" id="add-modal">
-    <div class="modal-content">
-        <h3>TRIGGER GITHUB ACTION</h3>
-        <p>To add <strong id="modal-ticker"></strong> to your tracker, trigger the workflow manually:</p>
-        <ol style="color: var(--text-dim); font-size: 12px; padding-left: 20px; margin-bottom: 16px;">
-              <li>Open your repo on GitHub</li>
-              <li>Go to Actions &rarr; Update Expected Moves</li>
-              <li>Click "Run workflow"</li>
-              <li>Enter ticker: <strong id="modal-ticker-2"></strong></li>
-              <li>Wait 30-60 seconds, then refresh this page</li>
-        </ol>
-        <p style="font-size: 11px;">Or use the GitHub CLI:</p>
-        <code id="cli-cmd"></code>
-        <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
-              <button class="secondary" id="modal-close">CLOSE</button>
-              <button id="modal-go">OPEN GITHUB &rarr;</button>
+        <div class="header-meta">
+            UPDATED <span id="last-updated">--</span><br>
+            <span id="ticker-count">--</span> TICKERS TRACKED
         </div>
     </div>
-  </div>
-  
+
+    <div id="data-status" class="data-status">Loading data...</div>
+
+    <div class="controls">
+        <input type="text" id="ticker-input" placeholder="ADD TICKER (e.g. NVDA, SPY)" maxlength="10">
+        <button id="add-btn">+ ADD &amp; FETCH</button>
+        <button id="refresh-btn" class="secondary">&#8635; RELOAD DATA</button>
+        <button id="copy-weekly-btn" class="secondary" title="Weekly EM + weekly Δ16, monthly fields left blank">&#128203; COPY PINE (WEEKLY)</button>
+        <button id="copy-full-btn" class="secondary" title="Weekly + monthly EM and Δ16">&#128203; COPY PINE (W+M)</button>
+        <button id="export-btn" class="secondary">&#10507; PINE INDICATOR</button>
+    </div>
+
+    <div class="chips" id="chips">
+        <button class="chip active" data-group="all">ALL</button>
+        <button class="chip" data-group="index">INDEX</button>
+        <button class="chip" data-group="mag7">MAG 7</button>
+        <button class="chip" data-group="semis">SEMIS</button>
+        <button class="chip" data-group="levered">LEVERED / VOL</button>
+        <button class="chip" data-group="sector">SECTORS</button>
+        <button class="chip" data-group="financial">FINANCIALS</button>
+        <button class="chip" data-group="commod">COMMODITIES</button>
+        <button class="chip" data-group="crypto">CRYPTO</button>
+        <button class="chip" data-group="flagged">FLAGGED</button>
+    </div>
+
+    <div class="sort-bar">
+        <label>SORT BY:</label>
+        <button class="sort-btn active" data-sort="weekly_em_pct">Weekly EM %</button>
+        <button class="sort-btn" data-sort="monthly_em_pct">Monthly EM %</button>
+        <button class="sort-btn" data-sort="weekly_em">Weekly EM $</button>
+        <button class="sort-btn" data-sort="put_skew_pct">Put Skew %</button>
+        <button class="sort-btn" data-sort="weekly_iv">IV %</button>
+        <button class="sort-btn" data-sort="price">Price</button>
+        <button class="sort-btn" data-sort="ticker_alpha">Ticker A-Z</button>
+    </div>
+
+    <div id="stats-bar" class="stats-bar" style="display:none;">
+        <div class="stat-item">SHOWING: <span id="stat-showing" class="stat-accent">--</span></div>
+        <div class="stat-item">AVG WEEKLY EM: <span id="stat-avg-weekly" class="stat-accent">--</span></div>
+        <div class="stat-item">AVG MONTHLY EM: <span id="stat-avg-monthly" class="stat-amber">--</span></div>
+        <div class="stat-item">AVG IV: <span id="stat-avg-iv" class="stat-blue">--</span></div>
+        <div class="stat-item">HIGHEST WEEKLY EM%: <span id="stat-max-weekly" class="stat-accent">--</span></div>
+    </div>
+
+    <div class="filter-bar">
+        FILTER: <input type="text" id="filter-input" placeholder="type to filter...">
+    </div>
+
+    <div id="grid" class="grid"></div>
+
+    <div class="footer">
+        <strong>How it works:</strong> GitHub Actions runs Friday after the close and Sunday evening. It pulls option chains from yfinance,
+        calculates EM as ATM straddle &times; 0.85, and finds the 0.16 delta strikes using each strike's own IV (so skew is captured).
+        Bands are anchored to the last completed weekly close, not live price.<br>
+        <strong>Skew row:</strong> how far each Δ16 strike sits beyond its EM band. A wider put gap than call gap means the market is paying up for downside.<br>
+        <strong>Pine:</strong> the copy buttons build the 8-field string <code style="display:inline;padding:1px 6px;background:var(--panel);border-radius:3px;font-size:11px;">TICKER:wEM:mEM:ref:wD16C:wD16P:mD16C:mD16P</code>
+        for the indicator's EM Watchlist String input. Flagged (suspect) tickers are left out.
+    </div>
+
+    <div class="modal" id="add-modal">
+        <div class="modal-content">
+            <h3>TRIGGER GITHUB ACTION</h3>
+            <p>To add <strong id="modal-ticker"></strong> to your tracker, trigger the workflow manually:</p>
+            <ol style="color: var(--text-dim); font-size: 12px; padding-left: 20px; margin-bottom: 16px;">
+                <li>Open your repo on GitHub</li>
+                <li>Go to Actions &rarr; Update Expected Moves</li>
+                <li>Click "Run workflow"</li>
+                <li>Enter ticker: <strong id="modal-ticker-2"></strong></li>
+                <li>Wait 30-60 seconds, then click Reload Data</li>
+            </ol>
+            <p style="font-size: 11px;">Or use the GitHub CLI:</p>
+            <code id="cli-cmd"></code>
+            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+                <button class="secondary" id="modal-close">CLOSE</button>
+                <button id="modal-go">OPEN GITHUB &rarr;</button>
+            </div>
+        </div>
+    </div>
+
   <script>
     const JSON_URL = 'https://raw.githubusercontent.com/marquisbware-sys/em-tracker/main/expected_moves.json';
     const REPO_URL = 'https://github.com/marquisbware-sys/em-tracker';
-    const TOP_N = 100;
+    const STALE_HOURS = 96;   // older than this = red
+
+    const GROUPS = {
+        index:     ['SPY','QQQ','IWM','DIA','VTI','VOO'],
+        mag7:      ['AAPL','MSFT','NVDA','AMZN','GOOGL','META','TSLA'],
+        semis:     ['NVDA','AMD','INTC','AVGO','QCOM','MU','AMAT','KLAC','LRCX','SNPS','CDNS'],
+        levered:   ['TSLL','TQQQ','SQQQ','UVXY','SPXL','SPXS','SOXL','SOXS','MSTU','NVDL'],
+        sector:    ['XLF','XLK','XLE','XLV','XLI','XLY','XLP','XLB','XLU','XLRE'],
+        financial: ['JPM','BAC','GS','MS','WFC','C','BLK','V','MA','AXP','HOOD','SOFI','COIN'],
+        commod:    ['GLD','SLV','USO','GDX','GDXJ','UNG','XOM','CVX','COP','OXY','SLB','HAL'],
+        crypto:    ['COIN','MSTR','HOOD','IBIT','MSTU'],
+    };
 
     let allData = [];
     let currentSort = 'weekly_em_pct';
     let sortAsc = false;
+    let currentGroup = 'all';
 
-    // ── Sort helpers ────────────────────────────────────────────────────────────
+    // ── helpers ────────────────────────────────────────────────────────────
+    const num = x => (typeof x === 'number' && isFinite(x)) ? x : null;
+    const ref = t => num(t.weekly_close) ?? num(t.price);
+    const fmt = (x, d = 2) => x == null ? '--' : x.toFixed(d);
+    const pct = (a, b) => (a != null && b) ? a / b * 100 : null;
+    const putGap  = t => (num(t.weekly_lower) != null && num(t.weekly_d16_put)  != null) ? t.weekly_lower - t.weekly_d16_put  : null;
+    const callGap = t => (num(t.weekly_upper) != null && num(t.weekly_d16_call) != null) ? t.weekly_d16_call - t.weekly_upper : null;
+    const isFlagged = t => t.em_suspect || t.weekly_is_weekly === false || num(t.monthly_em) == null;
+
     const SORT_KEYS = {
-        daily_em_pct:   t => (t.daily_em   && t.price) ? t.daily_em   / t.price * 100 : -Infinity,
-        weekly_em_pct:  t => (t.weekly_em  && t.price) ? t.weekly_em  / t.price * 100 : -Infinity,
-        monthly_em_pct: t => (t.monthly_em && t.price) ? t.monthly_em / t.price * 100 : -Infinity,
-        weekly_em:      t => t.weekly_em  || -Infinity,
-        monthly_em:     t => t.monthly_em || -Infinity,
-        weekly_iv:      t => t.weekly_iv  || -Infinity,
-        price:          t => t.price      || -Infinity,
+        weekly_em_pct:  t => pct(num(t.weekly_em),  ref(t)) ?? -Infinity,
+        monthly_em_pct: t => pct(num(t.monthly_em), ref(t)) ?? -Infinity,
+        weekly_em:      t => num(t.weekly_em)  ?? -Infinity,
+        put_skew_pct:   t => pct(putGap(t), ref(t)) ?? -Infinity,
+        weekly_iv:      t => num(t.weekly_iv)  ?? -Infinity,
+        price:          t => ref(t) ?? -Infinity,
         ticker_alpha:   t => t.ticker,
     };
 
     function sortedData(data) {
         const fn = SORT_KEYS[currentSort];
-        const sorted = [...data].sort((a, b) => {
-              const av = fn(a), bv = fn(b);
-              if (typeof av === 'string') return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
-              return sortAsc ? av - bv : bv - av;
+        return [...data].sort((a, b) => {
+            const av = fn(a), bv = fn(b);
+            if (typeof av === 'string') return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+            return sortAsc ? av - bv : bv - av;
         });
-        return sorted.slice(0, TOP_N);
     }
 
-    // ── Data loading ─────────────────────────────────────────────────────────────
+    // ── load ───────────────────────────────────────────────────────────────
+    let meta = {};
     async function loadData() {
         try {
-              const res = await fetch(JSON_URL + '?t=' + Date.now());
-              const data = await res.json();
-              allData = data.tickers || [];
-              document.getElementById('last-updated').textContent = formatDate(data.generated_at);
-              document.getElementById('ticker-count').textContent = data.count;
-              applyAndRender();
+            const res = await fetch(JSON_URL + '?t=' + Date.now());
+            const data = await res.json();
+            allData = data.tickers || [];
+            meta = data;
+            document.getElementById('last-updated').textContent = formatDate(data.generated_at);
+            document.getElementById('ticker-count').textContent = data.count;
+            renderStatus();
+            applyAndRender();
         } catch (e) {
-              document.getElementById('grid').innerHTML = `
-                    <div class="empty" style="grid-column: 1/-1;">
-                            <h2>NO DATA YET</h2>
-                                    <p>Update the JSON_URL constant in the HTML to point to your repo,<br>
-                                            then run the GitHub Action to generate expected_moves.json</p>
-                                                  </div>`;
+            document.getElementById('data-status').innerHTML =
+                '<span class="bad">Could not load or parse expected_moves.json. Check the latest GitHub Actions run.</span>';
+            document.getElementById('grid').innerHTML = `
+                <div class="empty" style="grid-column: 1/-1;">
+                    <h2>NO DATA</h2>
+                    <p>expected_moves.json failed to load or parse.<br>Open the repo's Actions tab and check the last run.</p>
+                </div>`;
         }
     }
 
     function formatDate(iso) {
         if (!iso) return '--';
-        const d = new Date(iso);
-        return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        // generated_at is written in UTC by the runner without a zone suffix
+        const d = new Date(/[zZ]|[+-]\d\d:\d\d$/.test(iso) ? iso : iso + 'Z');
+        return d.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
     }
 
-    function applyAndRender(filterQ) {
+    // ── data status bar ────────────────────────────────────────────────────
+    function renderStatus() {
+        const el = document.getElementById('data-status');
+        const iso = meta.generated_at || '';
+        const gen = new Date(/[zZ]|[+-]\d\d:\d\d$/.test(iso) ? iso : iso + 'Z');
+        const ageH = (Date.now() - gen.getTime()) / 3.6e6;
+        const ageCls = ageH > STALE_HOURS ? 'bad' : ageH > 48 ? 'warn' : 'ok';
+        const ageTxt = ageH < 1 ? `${Math.round(ageH * 60)}m` : ageH < 48 ? `${ageH.toFixed(1)}h` : `${(ageH / 24).toFixed(1)}d`;
+
+        const dates = {};
+        allData.forEach(t => { if (t.weekly_close_date) dates[t.weekly_close_date] = (dates[t.weekly_close_date] || 0) + 1; });
+        const anchor = Object.entries(dates).sort((a, b) => b[1] - a[1]);
+        const main = anchor[0] ? anchor[0][0] : null;
+        const mainIsFri = main ? new Date(main + 'T12:00:00').getDay() === 5 : false;
+        const odd = anchor.slice(1).map(([d, n]) => `${d} (${n})`).join(', ');
+
+        const suspect   = allData.filter(t => t.em_suspect).length;
+        const notWeekly = allData.filter(t => t.weekly_is_weekly === false).length;
+        const noMonthly = allData.filter(t => num(t.monthly_em) == null).length;
+        const noAnchor  = allData.filter(t => num(t.weekly_close) == null).length;
+
+        const live = document.getElementById('live-status');
+        live.textContent = ageCls === 'bad' ? 'DATA STALE' : 'DATA LIVE';
+        live.style.color = ageCls === 'bad' ? 'var(--red)' : '';
+
+        el.innerHTML = `
+            <span>AGE: <b class="${ageCls}">${ageTxt}</b></span>
+            <span>ANCHOR: <b class="${mainIsFri ? 'ok' : 'warn'}">${main || '--'}${main && !mainIsFri ? ' (not a Friday)' : ''}</b>${odd ? ` <span class="warn">also ${odd}</span>` : ''}</span>
+            <span>SUSPECT: <b class="${suspect ? 'bad' : 'ok'}">${suspect}</b></span>
+            <span>NOT WEEKLY: <b class="${notWeekly ? 'warn' : 'ok'}">${notWeekly}</b></span>
+            <span>NO MONTHLY: <b class="${noMonthly ? 'warn' : 'ok'}">${noMonthly}</b></span>
+            ${noAnchor ? `<span>NO ANCHOR: <b class="bad">${noAnchor}</b></span>` : ''}
+            <span>YFINANCE: <b>${meta.yfinance_version || 'unknown'}</b></span>
+        `;
+    }
+
+    // ── filter + render ────────────────────────────────────────────────────
+    function applyAndRender() {
+        const q = document.getElementById('filter-input').value.trim().toLowerCase();
         let data = allData;
-        if (filterQ) data = data.filter(t => t.ticker.toLowerCase().includes(filterQ));
+        if (currentGroup === 'flagged') data = data.filter(isFlagged);
+        else if (currentGroup !== 'all') data = data.filter(t => GROUPS[currentGroup].includes(t.ticker));
+        if (q) data = data.filter(t => t.ticker.toLowerCase().includes(q));
         const ranked = sortedData(data);
-        renderStats(ranked, data.length);
+        renderStats(ranked, allData.length);
         renderGrid(ranked);
     }
 
-    // ── Stats bar ─────────────────────────────────────────────────────────────────
     function renderStats(items, total) {
         const bar = document.getElementById('stats-bar');
-        if (items.length === 0) { bar.style.display = 'none'; return; }
+        if (!items.length) { bar.style.display = 'none'; return; }
         bar.style.display = 'flex';
-
-        const avgW = items.reduce((s,t) => s + (t.weekly_em && t.price ? t.weekly_em/t.price*100 : 0), 0) / items.length;
-        const avgM = items.reduce((s,t) => s + (t.monthly_em && t.price ? t.monthly_em/t.price*100 : 0), 0) / items.length;
-        const avgIV = items.reduce((s,t) => s + (t.weekly_iv || 0), 0) / items.length;
-        const maxW = Math.max(...items.map(t => t.weekly_em && t.price ? t.weekly_em/t.price*100 : 0));
-        const maxWTicker = items.find(t => t.weekly_em && t.price && Math.abs(t.weekly_em/t.price*100 - maxW) < 0.001);
-
+        const avg = arr => arr.length ? arr.reduce((s, x) => s + x, 0) / arr.length : null;
+        const w = items.map(t => pct(num(t.weekly_em), ref(t))).filter(x => x != null);
+        const m = items.map(t => pct(num(t.monthly_em), ref(t))).filter(x => x != null);
+        const iv = items.map(t => num(t.weekly_iv)).filter(x => x != null);
+        let top = null;
+        items.forEach(t => { const p = pct(num(t.weekly_em), ref(t)); if (p != null && (!top || p > top.p)) top = { t: t.ticker, p }; });
         document.getElementById('stat-showing').textContent = `${items.length} / ${total}`;
-        document.getElementById('stat-avg-daily').textContent = items.filter(t=>t.daily_em && t.price).length > 0 ? (items.filter(t=>t.daily_em && t.price).reduce((s,t)=>s+t.daily_em/t.price*100, 0) / items.filter(t=>t.daily_em && t.price).length).toFixed(2)+'%' : '--';
-        document.getElementById('stat-avg-weekly').textContent = avgW.toFixed(2) + '%';
-        document.getElementById('stat-amber').textContent = avgM.toFixed(2) + '%';
-        document.getElementById('stat-avg-iv').textContent = avgIV.toFixed(1) + '%';
-        document.getElementById('stat-max-weekly').textContent = maxWTicker
-          ? `${maxWTicker.ticker} ${maxW.toFixed(2)}%`
-              : '--';
+        document.getElementById('stat-avg-weekly').textContent = w.length ? avg(w).toFixed(2) + '%' : '--';
+        document.getElementById('stat-avg-monthly').textContent = m.length ? avg(m).toFixed(2) + '%' : '--';
+        document.getElementById('stat-avg-iv').textContent = iv.length ? avg(iv).toFixed(1) + '%' : '--';
+        document.getElementById('stat-max-weekly').textContent = top ? `${top.t} ${top.p.toFixed(2)}%` : '--';
     }
 
-    // ── Grid rendering ────────────────────────────────────────────────────────────
     function renderGrid(items) {
         const grid = document.getElementById('grid');
-        if (items.length === 0) {
-              grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><h2>NO MATCHES</h2></div>`;
-              return;
+        if (!items.length) {
+            grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><h2>NO MATCHES</h2></div>`;
+            return;
         }
-
-        const sortFn = SORT_KEYS[currentSort];
-        const isWeeklySort   = currentSort === 'weekly_em_pct'  || currentSort === 'weekly_em';
-        const isMonthlySort  = currentSort === 'monthly_em_pct' || currentSort === 'monthly_em';
-
         grid.innerHTML = items.map((t, idx) => {
-              const rank       = idx + 1;
-              const weeklyEM   = t.weekly_em   || 0;
-              const monthlyEM  = t.monthly_em  || 0;
-              const price      = t.price       || 0;
-              const wUpper     = t.weekly_upper  || 0;
-              const wLower     = t.weekly_lower  || 0;
-              const iv         = t.weekly_iv   || 0;
-              const weeklyPct  = price ? (weeklyEM  / price * 100) : 0;
-              const monthlyPct = price ? (monthlyEM / price * 100) : 0;
+            const rank = idx + 1;
+            const r = ref(t);
+            const spot = num(t.price);
+            const wEM = num(t.weekly_em), mEM = num(t.monthly_em);
+            const wLo = num(t.weekly_lower), wHi = num(t.weekly_upper);
+            const wP = num(t.weekly_d16_put), wC = num(t.weekly_d16_call);
+            const mP = num(t.monthly_d16_put), mC = num(t.monthly_d16_call);
+            const pg = putGap(t), cg = callGap(t);
+            const rankClass = rank <= 10 ? 'top10' : rank <= 25 ? 'top25' : '';
 
-              const rankClass = rank <= 10 ? 'top10' : rank <= 25 ? 'top25' : '';
-              const highlight = (isWeeklySort || isMonthlySort) ? 'sort-highlight' : '';
+            const flags = [
+                t.em_suspect ? '<span class="flag bad">SUSPECT</span>' : '',
+                t.weekly_is_weekly === false ? `<span class="flag warn">${t.weekly_dte}D, NOT WEEKLY</span>` : '',
+                mEM == null ? '<span class="flag warn">NO MONTHLY</span>' : '',
+            ].join('');
 
-              return `
-              <div class="card ${highlight}">
+            // Range bar spans the Δ16 strikes (or EM band if missing); ticks mark the EM band.
+            const lo = Math.min(...[wP, wLo].filter(x => x != null));
+            const hi = Math.max(...[wC, wHi].filter(x => x != null));
+            const pos = x => (x == null || !isFinite(lo) || !isFinite(hi) || hi === lo) ? null : Math.max(0, Math.min(100, (x - lo) / (hi - lo) * 100));
+            const refPos = pos(r), loPos = pos(wLo), hiPos = pos(wHi);
+
+            return `
+            <div class="card ${t.em_suspect ? 'suspect' : ''}">
                 <div class="card-header">
                     <div class="ticker-wrap">
-                          <div class="ticker">${t.ticker}</div>
-                                <span class="rank-badge ${rankClass}">#${rank}</span>
-                                    </div>
-                                        <div class="price">$<span class="price-value">${price.toFixed(2)}</span></div>
-                                          </div>
-                                            <div class="em-row em-daily">\n                  <span class="em-label">Daily</span>\n                  <span class="em-value">${t.daily_em ? "\u00b1$" + t.daily_em + " (" + (t.daily_em/t.price*100).toFixed(2) + "%)" : "N/A"}</span>\n                </div>\n                <div class="em-row em-weekly">
-                                                <span class="em-label">Weekly</span>
-        <span class="em-value">&#177;$${weeklyEM.toFixed(2)} (${weeklyPct.toFixed(2)}%)</span>
-          </div>
-            <div class="em-row em-monthly">
-                <span class="em-label">Monthly</span>
-                    <span class="em-value">&#177;$${monthlyEM.toFixed(2)} (${monthlyPct.toFixed(2)}%)</span>
-                      </div>
-                        <div class="em-row">
-                            <span class="em-label">IV</span>
-                                <span class="em-value" style="color: var(--blue);">${iv.toFixed(1)}%</span>
-                                  </div>
-      <div class="range">
-          <div style="display: flex; justify-content: space-between;">
-                <span>${wLower.toFixed(2)}</span>
-                      <span style="color: var(--text);">${price.toFixed(2)}</span>
-                            <span>${wUpper.toFixed(2)}</span>
-                                </div>
-                                    <div class="range-bar">
-                                          <div class="range-fill"></div>
-                                                <div class="range-marker" style="left: 50%;"></div>
-                                                    </div>
-                                                      </div>
-                                                      </div>`;
+                        <div class="ticker">${t.ticker}</div>
+                        <span class="rank-badge ${rankClass}">#${rank}</span>
+                    </div>
+                    <div class="price">$<span class="price-value">${fmt(r)}</span></div>
+                </div>
+                ${flags ? `<div style="margin:-6px 0 8px;">${flags}</div>` : ''}
+                <div class="em-row em-ref">
+                    <span class="em-label">Ref (${t.weekly_close_date || 'spot'})</span>
+                    <span class="em-value">$${fmt(r)}${spot != null && r != null && Math.abs(spot - r) > 0.005 ? ` <span style="color:var(--text-dim)">· spot ${fmt(spot)}</span>` : ''}</span>
+                </div>
+                <div class="em-row em-weekly">
+                    <span class="em-label">Weekly</span>
+                    <span class="em-value">&#177;$${fmt(wEM)} (${fmt(pct(wEM, r))}%)</span>
+                </div>
+                <div class="em-row em-monthly">
+                    <span class="em-label">Monthly</span>
+                    <span class="em-value">${mEM == null ? 'N/A' : `&#177;$${fmt(mEM)} (${fmt(pct(mEM, r))}%)`}</span>
+                </div>
+                <div class="em-row em-d16">
+                    <span class="em-label">W &#916;16 P / C</span>
+                    <span class="em-value">${wP == null || wC == null ? 'N/A' : `$${fmt(wP)} / $${fmt(wC)}`}</span>
+                </div>
+                <div class="em-row em-d16">
+                    <span class="em-label">M &#916;16 P / C</span>
+                    <span class="em-value">${mP == null || mC == null ? 'N/A' : `$${fmt(mP)} / $${fmt(mC)}`}</span>
+                </div>
+                <div class="em-row em-skew">
+                    <span class="em-label">Skew P / C</span>
+                    <span class="em-value">${pg == null || cg == null ? 'N/A' : `${fmt(pg)} / ${fmt(cg)}`}</span>
+                </div>
+                <div class="em-row">
+                    <span class="em-label">IV</span>
+                    <span class="em-value" style="color: var(--blue);">${fmt(num(t.weekly_iv), 1)}%</span>
+                </div>
+                <div class="range">
+                    <div class="range-labels">
+                        <span>${fmt(wP ?? wLo)}</span>
+                        <span class="c">${fmt(wLo)} &#8211; ${fmt(wHi)}</span>
+                        <span>${fmt(wC ?? wHi)}</span>
+                    </div>
+                    <div class="range-bar">
+                        <div class="range-fill"></div>
+                        ${loPos != null ? `<div class="range-tick" style="left:${loPos}%"></div>` : ''}
+                        ${hiPos != null ? `<div class="range-tick" style="left:${hiPos}%"></div>` : ''}
+                        ${refPos != null ? `<div class="range-marker" style="left:${refPos}%"></div>` : ''}
+                    </div>
+                    <div class="range-legend"><i style="background:var(--text)"></i>ref &nbsp; <i style="background:var(--cyan)"></i>EM band &nbsp; ends = &#916;16</div>
+                </div>
+            </div>`;
         }).join('');
     }
 
-    // ── Sort buttons ──────────────────────────────────────────────────────────────
+    // ── controls ───────────────────────────────────────────────────────────
     document.querySelectorAll('.sort-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-              const newSort = btn.dataset.sort;
-              if (currentSort === newSort) {
-                      sortAsc = !sortAsc; // toggle direction
-              } else {
-                      currentSort = newSort;
-                      sortAsc = false;
-              }
-              document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-              btn.classList.add('active');
-              const q = document.getElementById('filter-input').value.toLowerCase();
-              applyAndRender(q || null);
+            const s = btn.dataset.sort;
+            if (currentSort === s) sortAsc = !sortAsc; else { currentSort = s; sortAsc = s === 'ticker_alpha'; }
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyAndRender();
         });
     });
 
-    // ── Add ticker ────────────────────────────────────────────────────────────────
-    document.getElementById('add-btn').addEventListener('click', () => {
-        const input = document.getElementById('ticker-input');
-        const ticker = input.value.trim().toUpperCase();
-        if (!ticker) return;
-        document.getElementById('modal-ticker').textContent  = ticker;
-        document.getElementById('modal-ticker-2').textContent = ticker;
-        document.getElementById('cli-cmd').textContent =
-              `gh workflow run update-em.yml -f ticker=${ticker}`;
-        document.getElementById('add-modal').classList.add('open');
+    document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            currentGroup = chip.dataset.group;
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            applyAndRender();
+        });
     });
 
+    document.getElementById('filter-input').addEventListener('input', () => applyAndRender());
+
+    document.getElementById('add-btn').addEventListener('click', () => {
+        const ticker = document.getElementById('ticker-input').value.trim().toUpperCase();
+        if (!ticker) return;
+        document.getElementById('modal-ticker').textContent = ticker;
+        document.getElementById('modal-ticker-2').textContent = ticker;
+        document.getElementById('cli-cmd').textContent = `gh workflow run update-em.yml -f ticker=${ticker}`;
+        document.getElementById('add-modal').classList.add('open');
+    });
+    document.getElementById('ticker-input').addEventListener('keypress', e => {
+        if (e.key === 'Enter') document.getElementById('add-btn').click();
+    });
     document.getElementById('modal-close').addEventListener('click', () =>
         document.getElementById('add-modal').classList.remove('open'));
-
     document.getElementById('modal-go').addEventListener('click', () =>
         window.open(REPO_URL + '/actions/workflows/update-em.yml', '_blank'));
-
     document.getElementById('refresh-btn').addEventListener('click', loadData);
-
     document.getElementById('export-btn').addEventListener('click', () =>
         window.open(REPO_URL + '/blob/main/expected_move.pine', '_blank'));
 
-  document.getElementById('copy-pine-btn').addEventListener('click', async () => {
-    const btn = document.getElementById('copy-pine-btn');
-    const original = btn.innerHTML;
-    try {
-      const res = await fetch(JSON_URL);
-      const json = await res.json();
-      const text = json.tickers.map(t => t.ticker + ':' + t.weekly_em + ':' + t.monthly_em + ':' + t.price).join(',');
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-      } else {
+    // ── Pine string copy ───────────────────────────────────────────────────
+    function buildPine(includeMonthly) {
+        const f = x => (num(x) == null) ? '' : x;
+        const rows = allData.filter(t => num(t.weekly_em) != null && num(t.weekly_close) != null && !t.em_suspect);
+        const s = rows.map(t => [
+            t.ticker,
+            t.weekly_em,
+            includeMonthly ? f(t.monthly_em) : '',
+            t.weekly_close,
+            f(t.weekly_d16_call),
+            f(t.weekly_d16_put),
+            includeMonthly ? f(t.monthly_d16_call) : '',
+            includeMonthly ? f(t.monthly_d16_put) : '',
+        ].join(':')).join(',');
+        return { s, n: rows.length, skipped: allData.length - rows.length };
+    }
+
+    async function copyText(text) {
+        try {
+            if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
+        } catch (e) { /* fall through */ }
         const ta = document.createElement('textarea');
         ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta); ta.focus(); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta);
-      }
-      btn.textContent = '\u2713 COPIED!';
-      setTimeout(() => { btn.innerHTML = original; }, 2000);
-    } catch (e) {
-      btn.textContent = 'ERROR';
-      setTimeout(() => { btn.innerHTML = original; }, 2000);
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
     }
-  });;;
 
-    // ── Filter ────────────────────────────────────────────────────────────────────
-    document.getElementById('filter-input').addEventListener('input', (e) => {
-        const q = e.target.value.toLowerCase();
-        applyAndRender(q || null);
-    });
+    function showStringModal(str) {
+        const m = document.createElement('div');
+        m.className = 'modal open';
+        m.innerHTML = `<div class="modal-content"><h3>COPY THIS STRING</h3>
+            <p>Clipboard was blocked. Select all and copy manually.</p>
+            <textarea readonly style="width:100%;height:140px;background:var(--bg);color:var(--accent);border:1px solid var(--border);padding:10px;font-family:inherit;font-size:11px;border-radius:4px;"></textarea>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px;"><button class="secondary">CLOSE</button></div></div>`;
+        m.querySelector('textarea').value = str;
+        m.querySelector('button').onclick = () => m.remove();
+        document.body.appendChild(m);
+        m.querySelector('textarea').select();
+    }
 
-    document.getElementById('ticker-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') document.getElementById('add-btn').click();
-    });
+    function wireCopy(id, includeMonthly) {
+        const btn = document.getElementById(id);
+        btn.addEventListener('click', async () => {
+            if (!allData.length) await loadData();
+            const original = btn.innerHTML;
+            const { s, n, skipped } = buildPine(includeMonthly);
+            if (!n) { btn.textContent = 'NO DATA'; setTimeout(() => btn.innerHTML = original, 2000); return; }
+            const ok = await copyText(s);
+            if (!ok) showStringModal(s);
+            btn.textContent = ok ? `\u2713 ${n} COPIED${skipped ? `, ${skipped} SKIPPED` : ''}` : 'COPY MANUALLY';
+            setTimeout(() => btn.innerHTML = original, 2500);
+        });
+    }
+    wireCopy('copy-weekly-btn', false);
+    wireCopy('copy-full-btn', true);
 
     loadData();
-    setInterval(loadData, 60000);
+    setInterval(loadData, 5 * 60 * 1000);
   </script>
 
   </body>

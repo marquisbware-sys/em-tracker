@@ -1,142 +1,210 @@
-// @version=5
-// Expected Move Indicator - Auto-Updated Weekly
-// Data sourced from yfinance, updated every Sunday at 6pm Central
-// Repo: https://github.com/YOUR_USERNAME/em-tracker
+// @version=6
+// Expected Move + 0.16 Delta (Compact) - Pine v6
+// Plots EM bands AND 0.16 delta strike bands.
 //
-// USAGE: This script auto-generates from expected_moves.json
-// To regenerate manually, run: python generate_pine.py
+// String format:
+//   TICKER:WEEKLY_EM:MONTHLY_EM:PRICE:W_D16_CALL:W_D16_PUT:M_D16_CALL:M_D16_PUT
+//   Example: SPY:7.78:19.29:756.48:765.5:746.2:780.0:730.5,QQQ:...
+//
+// Backwards compatible: 4-field rows still work, delta section just skipped.
 
-indicator("Expected Move (Auto-Updated)", overlay=true, max_boxes_count=10, max_lines_count=10)
+indicator("Expected Move + Δ16 (Compact)", overlay = true, max_lines_count = 30, max_labels_count = 30)
 
 // ============================================================
 // USER INPUTS
 // ============================================================
-showWeekly = input.bool(true, "Show Weekly EM")
-showMonthly = input.bool(true, "Show Monthly EM")
-showTable = input.bool(true, "Show Info Table")
-weeklyColor = input.color(color.new(color.lime, 0), "Weekly EM Color")
-monthlyColor = input.color(color.new(color.orange, 0), "Monthly EM Color")
-bandWidth = input.int(2, "Line Width", minval=1, maxval=5)
+string emString = input.text_area(defval = "SPY:7.78:19.29:756.48:765.5:746.2:780.0:730.5,QQQ:12.47:29.76:738.31:758.0:715.5:780.0:690.0", title = "EM Watchlist String", tooltip = "Format: TICKER:wEM:mEM:price:wD16C:wD16P:mD16C:mD16P separated by commas.")
+
+bool showWeekly      = input.bool(true, "Show Weekly EM Bands",   group = "EM Bands")
+bool showMonthly     = input.bool(true, "Show Monthly EM Bands",  group = "EM Bands")
+bool showMidline     = input.bool(true, "Show Reference Price Line", group = "EM Bands")
+color weeklyColor    = input.color(color.lime,   "Weekly EM Color",   group = "EM Bands")
+color monthlyColor   = input.color(color.orange, "Monthly EM Color",  group = "EM Bands")
+color midColor       = input.color(color.gray,   "Reference Line Color", group = "EM Bands")
+
+bool showWeeklyD16   = input.bool(true, "Show Weekly 0.16Δ Bands",  group = "0.16 Delta Bands")
+bool showMonthlyD16  = input.bool(true, "Show Monthly 0.16Δ Bands", group = "0.16 Delta Bands")
+color weeklyD16Color  = input.color(color.aqua,    "Weekly Δ16 Color",  group = "0.16 Delta Bands")
+color monthlyD16Color = input.color(color.fuchsia, "Monthly Δ16 Color", group = "0.16 Delta Bands")
+
+bool showTable       = input.bool(true, "Show Info Table",     group = "Display")
+int  bandWidth       = input.int(2, "Band Line Width", minval = 1, maxval = 5, group = "Display")
+bool extendBands     = input.bool(true, "Extend Bands Forward", group = "Display")
 
 // ============================================================
-// AUTO-GENERATED DATA BLOCK
-// This entire section gets rewritten by generate_pine.py each week
-// Format: ticker, weekly_em, monthly_em, price, weekly_upper, weekly_lower
-// DATA_GENERATED_AT: 2026-05-24T18:00:00
+// PARSE WATCHLIST
+// Returns 7-tuple: [wEM, mEM, refP, wD16C, wD16P, mD16C, mD16P]
 // ============================================================
+parseEM(string fullString, string currentTicker) =>
+    float wEM   = na
+    float mEM   = na
+    float refP  = na
+    float wD16C = na
+    float wD16P = na
+    float mD16C = na
+    float mD16P = na
 
-getEMData(string sym) =>
-    float weeklyEM = na
-    float monthlyEM = na
-    float refPrice = na
+    array<string> entries = str.split(fullString, ",")
+    int numEntries = array.size(entries)
+    bool found = false
 
-    // [PINE_DATA_BLOCK_START]
-    if sym == "AAPL"
-        weeklyEM := 4.12
-        monthlyEM := 8.95
-        refPrice := 195.42
-    else if sym == "META"
-        weeklyEM := 12.4
-        monthlyEM := 27.18
-        refPrice := 458.21
-    else if sym == "NVDA"
-        weeklyEM := 4.85
-        monthlyEM := 10.92
-        refPrice := 132.45
-    else if sym == "QQQ"
-        weeklyEM := 6.21
-        monthlyEM := 13.85
-        refPrice := 478.34
-    else if sym == "SPY"
-        weeklyEM := 5.43
-        monthlyEM := 12.1
-        refPrice := 542.18
-    else if sym == "TSLA"
-        weeklyEM := 11.2
-        monthlyEM := 25.3
-        refPrice := 178.5
-    else if sym == "MSTR"
-        weeklyEM := 89.4
-        monthlyEM := 200.15
-        refPrice := 1248.5
-    else if sym == "COIN"
-        weeklyEM := 14.2
-        monthlyEM := 31.85
-        refPrice := 235.4
-    // [PINE_DATA_BLOCK_END]
+    for i = 0 to numEntries - 1
+        if not found
+            string entry = str.trim(array.get(entries, i))
+            array<string> parts = str.split(entry, ":")
+            int sz = array.size(parts)
 
-    [weeklyEM, monthlyEM, refPrice]
+            if sz >= 4
+                string tickerName = str.trim(array.get(parts, 0))
+                if str.upper(tickerName) == str.upper(currentTicker)
+                    wEM  := str.tonumber(array.get(parts, 1))
+                    mEM  := str.tonumber(array.get(parts, 2))
+                    refP := str.tonumber(array.get(parts, 3))
+                    if sz >= 5
+                        wD16C := str.tonumber(array.get(parts, 4))
+                    if sz >= 6
+                        wD16P := str.tonumber(array.get(parts, 5))
+                    if sz >= 7
+                        mD16C := str.tonumber(array.get(parts, 6))
+                    if sz >= 8
+                        mD16P := str.tonumber(array.get(parts, 7))
+                    found := true
+
+    [wEM, mEM, refP, wD16C, wD16P, mD16C, mD16P]
+
+[weeklyEM, monthlyEM, refPrice, wD16Call, wD16Put, mD16Call, mD16Put] = parseEM(emString, syminfo.ticker)
 
 // ============================================================
-// PLOTTING LOGIC
+// WEEK BOUNDARIES
 // ============================================================
-[wEM, mEM, refP] = getEMData(syminfo.ticker)
+int msPerDay        = 86400000
+int daysSinceMonday = (dayofweek(time) + 5) % 7
+int mondayStart     = time - daysSinceMonday * msPerDay
+int fridayEnd       = mondayStart + 5 * msPerDay
+int monthEnd        = mondayStart + 30 * msPerDay
 
-// Calculate band start (Monday open of current week)
-isNewWeek = dayofweek(time) == dayofweek.monday and dayofweek(time[1]) != dayofweek.monday
-var float weekStartPrice = na
-if isNewWeek or barstate.isfirst
-    weekStartPrice := refP
+int weeklyRight  = extendBands ? fridayEnd : time
+int monthlyRight = extendBands ? monthEnd  : time
 
-// Plot weekly bands
-var line weeklyUpperLine = na
-var line weeklyLowerLine = na
-var line weeklyMidLine = na
+// ============================================================
+// LINE/LABEL MANAGEMENT
+// ============================================================
+var array<line>  activeLines  = array.new<line>()
+var array<label> activeLabels = array.new<label>()
 
-if not na(wEM) and not na(refP) and showWeekly
-    if barstate.islast
-        line.delete(weeklyUpperLine)
-        line.delete(weeklyLowerLine)
-        line.delete(weeklyMidLine)
+clearAll() =>
+    if array.size(activeLines) > 0
+        for i = 0 to array.size(activeLines) - 1
+            line.delete(array.get(activeLines, i))
+    if array.size(activeLabels) > 0
+        for i = 0 to array.size(activeLabels) - 1
+            label.delete(array.get(activeLabels, i))
+    array.clear(activeLines)
+    array.clear(activeLabels)
 
-        // Find Monday of current week
-        mondayTime = time - (dayofweek(time) - dayofweek.monday) * 86400000
-        fridayTime = mondayTime + 4 * 86400000
+drawHLine(int leftT, int rightT, float price, color c, int width, string styleName) =>
+    string ls = styleName == "solid"  ? line.style_solid  : styleName == "dashed" ? line.style_dashed : line.style_dotted
+    line ln = line.new(leftT, price, rightT, price, xloc = xloc.bar_time, color = c, width = width, style = ls)
+    array.push(activeLines, ln)
 
-        weeklyUpperLine := line.new(mondayTime, refP + wEM, fridayTime, refP + wEM,
-                                     xloc=xloc.bar_time, color=weeklyColor, width=bandWidth)
-        weeklyLowerLine := line.new(mondayTime, refP - wEM, fridayTime, refP - wEM,
-                                     xloc=xloc.bar_time, color=weeklyColor, width=bandWidth)
-        weeklyMidLine := line.new(mondayTime, refP, fridayTime, refP,
-                                   xloc=xloc.bar_time, color=color.new(weeklyColor, 70),
-                                   width=1, style=line.style_dashed)
+drawLabel(int t, float price, string txt, color c) =>
+    label lbl = label.new(t, price, text = txt, xloc = xloc.bar_time, style = label.style_label_left, color = color.new(c, 80), textcolor = c, size = size.small)
+    array.push(activeLabels, lbl)
 
-// Plot monthly bands
-var line monthlyUpperLine = na
-var line monthlyLowerLine = na
+// ============================================================
+// MAIN DRAW
+// ============================================================
+if barstate.islast and not na(refPrice)
+    clearAll()
 
-if not na(mEM) and not na(refP) and showMonthly
-    if barstate.islast
-        line.delete(monthlyUpperLine)
-        line.delete(monthlyLowerLine)
+    if showMidline
+        drawHLine(mondayStart, weeklyRight, refPrice, color.new(midColor, 30), 1, "dashed")
 
-        mondayTime = time - (dayofweek(time) - dayofweek.monday) * 86400000
-        monthEndTime = mondayTime + 30 * 86400000
+    // Weekly EM (solid)
+    if showWeekly and not na(weeklyEM)
+        drawHLine(mondayStart, weeklyRight, refPrice + weeklyEM, weeklyColor, bandWidth, "solid")
+        drawHLine(mondayStart, weeklyRight, refPrice - weeklyEM, weeklyColor, bandWidth, "solid")
+        drawLabel(weeklyRight, refPrice + weeklyEM, "W EM +" + str.tostring(weeklyEM, "#.##"), weeklyColor)
+        drawLabel(weeklyRight, refPrice - weeklyEM, "W EM -" + str.tostring(weeklyEM, "#.##"), weeklyColor)
 
-        monthlyUpperLine := line.new(mondayTime, refP + mEM, monthEndTime, refP + mEM,
-                                      xloc=xloc.bar_time, color=monthlyColor,
-                                      width=bandWidth, style=line.style_dotted)
-        monthlyLowerLine := line.new(mondayTime, refP - mEM, monthEndTime, refP - mEM,
-                                      xloc=xloc.bar_time, color=monthlyColor,
-                                      width=bandWidth, style=line.style_dotted)
+    // Monthly EM (dotted)
+    if showMonthly and not na(monthlyEM)
+        drawHLine(mondayStart, monthlyRight, refPrice + monthlyEM, monthlyColor, bandWidth, "dotted")
+        drawHLine(mondayStart, monthlyRight, refPrice - monthlyEM, monthlyColor, bandWidth, "dotted")
+        drawLabel(monthlyRight, refPrice + monthlyEM, "M EM +" + str.tostring(monthlyEM, "#.##"), monthlyColor)
+        drawLabel(monthlyRight, refPrice - monthlyEM, "M EM -" + str.tostring(monthlyEM, "#.##"), monthlyColor)
 
-// Info table
-var table infoPanel = table.new(position.top_right, 3, 4, frame_color=color.gray,
-                                 frame_width=1, border_color=color.gray, border_width=1)
+    // Weekly Δ16 (dashed)
+    if showWeeklyD16
+        if not na(wD16Call)
+            drawHLine(mondayStart, weeklyRight, wD16Call, weeklyD16Color, bandWidth, "dashed")
+            drawLabel(weeklyRight, wD16Call, "W Δ16C " + str.tostring(wD16Call, "#.##"), weeklyD16Color)
+        if not na(wD16Put)
+            drawHLine(mondayStart, weeklyRight, wD16Put, weeklyD16Color, bandWidth, "dashed")
+            drawLabel(weeklyRight, wD16Put, "W Δ16P " + str.tostring(wD16Put, "#.##"), weeklyD16Color)
 
-if showTable and barstate.islast
-    if not na(wEM)
-        table.cell(infoPanel, 0, 0, "Weekly EM", text_color=weeklyColor, text_size=size.small)
-        table.cell(infoPanel, 1, 0, "±" + str.tostring(wEM, "#.##"), text_color=weeklyColor, text_size=size.small)
-        table.cell(infoPanel, 2, 0, str.tostring(refP - wEM, "#.##") + " / " + str.tostring(refP + wEM, "#.##"),
-                   text_color=weeklyColor, text_size=size.small)
+    // Monthly Δ16 (dashed)
+    if showMonthlyD16
+        if not na(mD16Call)
+            drawHLine(mondayStart, monthlyRight, mD16Call, monthlyD16Color, bandWidth, "dashed")
+            drawLabel(monthlyRight, mD16Call, "M Δ16C " + str.tostring(mD16Call, "#.##"), monthlyD16Color)
+        if not na(mD16Put)
+            drawHLine(mondayStart, monthlyRight, mD16Put, monthlyD16Color, bandWidth, "dashed")
+            drawLabel(monthlyRight, mD16Put, "M Δ16P " + str.tostring(mD16Put, "#.##"), monthlyD16Color)
 
-    if not na(mEM)
-        table.cell(infoPanel, 0, 1, "Monthly EM", text_color=monthlyColor, text_size=size.small)
-        table.cell(infoPanel, 1, 1, "±" + str.tostring(mEM, "#.##"), text_color=monthlyColor, text_size=size.small)
-        table.cell(infoPanel, 2, 1, str.tostring(refP - mEM, "#.##") + " / " + str.tostring(refP + mEM, "#.##"),
-                   text_color=monthlyColor, text_size=size.small)
+// ============================================================
+// INFO TABLE
+// ============================================================
+var table infoPanel = table.new(position = position.top_right, columns = 2, rows = 9, frame_color = color.gray, frame_width = 1, border_color = color.gray, border_width = 1, bgcolor = color.new(color.black, 70))
 
-    if na(wEM) and na(mEM)
-        table.cell(infoPanel, 0, 0, syminfo.ticker + " not in watchlist", text_color=color.gray, text_size=size.small)
-        table.cell(infoPanel, 0, 1, "Add via web dashboard", text_color=color.gray, text_size=size.small)
+if barstate.islast and showTable
+    if not na(weeklyEM) and not na(refPrice)
+        float priceVsRef  = math.abs(close - refPrice)
+        float pctOfWeekly = priceVsRef / weeklyEM * 100
+        color rangeColor  = pctOfWeekly < 50 ? color.green : pctOfWeekly < 80 ? color.yellow : pctOfWeekly < 100 ? color.orange : color.red
+
+        table.cell(infoPanel, 0, 0, syminfo.ticker, text_color = color.white, text_size = size.normal, bgcolor = color.new(color.blue, 80))
+        table.cell(infoPanel, 1, 0, "$" + str.tostring(close, "#.##"), text_color = color.white, text_size = size.normal, bgcolor = color.new(color.blue, 80))
+
+        table.cell(infoPanel, 0, 1, "Ref Price", text_color = color.gray, text_size = size.small)
+        table.cell(infoPanel, 1, 1, "$" + str.tostring(refPrice, "#.##"), text_color = color.gray, text_size = size.small)
+
+        table.cell(infoPanel, 0, 2, "Weekly EM", text_color = weeklyColor, text_size = size.small)
+        table.cell(infoPanel, 1, 2, "±$" + str.tostring(weeklyEM, "#.##"), text_color = weeklyColor, text_size = size.small)
+
+        table.cell(infoPanel, 0, 3, "W EM Range", text_color = weeklyColor, text_size = size.small)
+        table.cell(infoPanel, 1, 3, str.tostring(refPrice - weeklyEM, "#.##") + " / " + str.tostring(refPrice + weeklyEM, "#.##"), text_color = weeklyColor, text_size = size.small)
+
+        if not na(wD16Put) and not na(wD16Call)
+            table.cell(infoPanel, 0, 4, "W Δ16 Range", text_color = weeklyD16Color, text_size = size.small)
+            table.cell(infoPanel, 1, 4, str.tostring(wD16Put, "#.##") + " / " + str.tostring(wD16Call, "#.##"), text_color = weeklyD16Color, text_size = size.small)
+
+        if not na(monthlyEM)
+            table.cell(infoPanel, 0, 5, "Monthly EM", text_color = monthlyColor, text_size = size.small)
+            table.cell(infoPanel, 1, 5, "±$" + str.tostring(monthlyEM, "#.##"), text_color = monthlyColor, text_size = size.small)
+
+            table.cell(infoPanel, 0, 6, "M EM Range", text_color = monthlyColor, text_size = size.small)
+            table.cell(infoPanel, 1, 6, str.tostring(refPrice - monthlyEM, "#.##") + " / " + str.tostring(refPrice + monthlyEM, "#.##"), text_color = monthlyColor, text_size = size.small)
+
+        if not na(mD16Put) and not na(mD16Call)
+            table.cell(infoPanel, 0, 7, "M Δ16 Range", text_color = monthlyD16Color, text_size = size.small)
+            table.cell(infoPanel, 1, 7, str.tostring(mD16Put, "#.##") + " / " + str.tostring(mD16Call, "#.##"), text_color = monthlyD16Color, text_size = size.small)
+
+        table.cell(infoPanel, 0, 8, "% of W EM", text_color = color.gray, text_size = size.small)
+        table.cell(infoPanel, 1, 8, str.tostring(pctOfWeekly, "#.#") + "%", text_color = rangeColor, text_size = size.small)
+    else
+        table.cell(infoPanel, 0, 0, syminfo.ticker, text_color = color.yellow, text_size = size.normal)
+        table.cell(infoPanel, 1, 0, "Not in string", text_color = color.yellow, text_size = size.small)
+
+// ============================================================
+// ALERTS
+// ============================================================
+bool emUpperBreak = not na(weeklyEM) and not na(refPrice) and ta.crossover(close, refPrice + weeklyEM)
+bool emLowerBreak = not na(weeklyEM) and not na(refPrice) and ta.crossunder(close, refPrice - weeklyEM)
+bool d16CallTouch = not na(wD16Call) and ta.crossover(close, wD16Call)
+bool d16PutTouch  = not na(wD16Put)  and ta.crossunder(close, wD16Put)
+
+alertcondition(emUpperBreak, "Weekly EM Upper Break", "Price broke weekly EM upper band")
+alertcondition(emLowerBreak, "Weekly EM Lower Break", "Price broke weekly EM lower band")
+alertcondition(d16CallTouch, "Weekly Δ16 Call Touch", "Price touched weekly 0.16Δ call strike")
+alertcondition(d16PutTouch,  "Weekly Δ16 Put Touch",  "Price touched weekly 0.16Δ put strike")
