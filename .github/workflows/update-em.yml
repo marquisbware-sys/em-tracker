@@ -2,9 +2,11 @@ name: Update Expected Moves
 
 on:
   schedule:
-    # Friday at 21:00 UTC = 4pm CT (right after market close)
-    - cron: '0 21 * * 5'
-    # Sunday at 23:00 UTC = 6pm CT (ready for Monday open)
+    # Friday 23:30 UTC = 5:30pm CT (winter) / 6:30pm CT (summer).
+    # Runs 90+ min after the bell so Yahoo has posted Friday's daily bar.
+    # (The old 21:00 UTC run fired right at 4pm ET and anchored to Thursday.)
+    - cron: '30 23 * * 5'
+    # Sunday 23:00 UTC = 5pm CT (winter) / 6pm CT (summer), ready for Monday open
     - cron: '0 23 * * 0'
   workflow_dispatch:
     inputs:
@@ -12,6 +14,11 @@ on:
         description: 'Single ticker to update (leave blank for full watchlist)'
         required: false
         default: ''
+
+# Queue runs instead of letting two race each other to push
+concurrency:
+  group: em-update
+  cancel-in-progress: false
 
 jobs:
   update-em:
@@ -21,16 +28,18 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          pip install yfinance pandas
+          pip install -r requirements.txt
+          pip show yfinance | head -2
+
       - name: Run EM calculation
         run: |
           if [ -n "${{ github.event.inputs.ticker }}" ]; then
@@ -38,10 +47,17 @@ jobs:
           else
             python calculate_em.py
           fi
+
       - name: Commit and push
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+          # Re-base onto the current tip so a commit made during the run
+          # can't reject the push. The JSON is regenerated whole, so there
+          # is nothing to merge.
+          git fetch origin main
+          git reset --mixed origin/main
           git add expected_moves.json
-          git diff --staged --quiet || git commit -m "Update EM data $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "Update EM data $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push origin main
