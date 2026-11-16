@@ -33,19 +33,20 @@ ET = ZoneInfo("America/New_York")
 # CONFIG
 # ============================================================
 WATCHLIST = [
-    "SPY", "QQQ", "IWM", "DIA", "VTI", "VOO",
+    # Only tickers with TanukiTrade GEX coverage (trimmed 2026-11-15)
+    "SPY", "QQQ", "IWM", "DIA",
     "XLF", "XLK", "XLE", "XLV", "XLI", "XLY", "XLP", "XLB", "XLU", "XLRE",
     "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA", "AMD", "INTC", "AVGO",
-    "QCOM", "ORCL", "CRM", "ADBE", "NFLX", "MU", "AMAT", "KLAC", "LRCX",
-    "SNPS", "CDNS", "TSLL", "TQQQ", "SQQQ", "UVXY", "SPXL", "SPXS",
-    "SOXL", "SOXS", "MSTU", "NVDL",
-    "JPM", "BAC", "GS", "MS", "WFC", "C", "BLK", "V", "MA", "AXP",
-    "UNH", "JNJ", "PFE", "ABBV", "MRK", "LLY", "BMY", "AMGN",
+    "QCOM", "ORCL", "CRM", "ADBE", "NFLX", "MU", "AMAT", "LRCX",
+    "TSLL", "TQQQ", "SQQQ", "UVXY",
+    "SOXL",
+    "JPM", "BAC", "GS", "MS", "WFC", "C", "V", "MA", "AXP",
+    "UNH", "JNJ", "PFE", "ABBV", "MRK", "LLY", "BMY",
     "XOM", "CVX", "COP", "OXY", "SLB", "HAL",
     "GLD", "SLV", "USO", "GDX", "GDXJ", "UNG",
-    "WMT", "TGT", "COST", "HD", "LOW", "DIS", "ROKU",
+    "WMT", "TGT", "COST", "HD", "LOW", "DIS",
     "COIN", "MSTR", "HOOD", "IBIT", "PLTR", "SOFI",
-    "SPCX", "LCID", "GME", "AMC",
+    "SPCX", "GME",
     "BA", "RTX", "LMT", "CAT", "T", "VZ",
 ]
 
